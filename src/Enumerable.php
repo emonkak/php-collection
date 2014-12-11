@@ -46,15 +46,13 @@ trait Enumerable
 
     /**
      * @param mixed $valueSelector (value, key, source) -> values
-     * @param mixed $keySelector (value, key, source) -> key
      * @return Collection
      */
-    public function concatMap($valueSelector, $keySelector = null)
+    public function concatMap($selector)
     {
         $xs = $this->getSource();
-        $valueSelector = $this->resolveSelector($valueSelector);
-        $keySelector = $this->resolveKeySelector($keySelector);
-        return $this->newCollection($this->getProvider()->concatMap($xs, $valueSelector, $keySelector));
+        $selector = $this->resolveSelector($selector);
+        return $this->newCollection($this->getProvider()->concatMap($xs, $selector));
     }
 
     public function parMap(callable $f, $workers = 4, $timeout = null)

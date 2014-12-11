@@ -11,11 +11,11 @@ trait EnumerableAliases
         return $this->map($valueSelector, $keySelector = null);
     }
 
-    abstract public function concatMap($valueSelector, $keySelector = null);
+    abstract public function concatMap($selector);
 
-    public function flatMap($valueSelector, $keySelector = null)
+    public function flatMap($selector)
     {
-        return $this->concatMap($valueSelector, $keySelector = null);
+        return $this->concatMap($selector);
     }
 
     abstract public function reduce(callable $f, $acc);
