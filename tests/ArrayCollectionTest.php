@@ -1,9 +1,9 @@
 <?php
 
-namespace Underbar\Tests;
+namespace Emonkak\Collection\Tests;
 
-use Underbar\Collection;
-use Underbar\Provider\ArrayProvider;
+use Emonkak\Collection\Collection;
+use Emonkak\Collection\Provider\ArrayProvider;
 
 class ArrayCollectionTest extends AbstractCollectionTest
 {

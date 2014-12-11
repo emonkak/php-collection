@@ -1,6 +1,6 @@
 <?php
 
-namespace Underbar\Predicate;
+namespace Emonkak\Collection\Predicate;
 
 interface IPredicateResolver
 {

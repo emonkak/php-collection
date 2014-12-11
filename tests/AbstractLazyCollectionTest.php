@@ -1,8 +1,8 @@
 <?php
 
-namespace Underbar\Tests;
+namespace Emonkak\Collection\Tests;
 
-use Underbar\Collection;
+use Emonkak\Collection\Collection;
 
 abstract class AbstractLazyCollectionTest extends AbstractCollectionTest
 {

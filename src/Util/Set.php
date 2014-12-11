@@ -1,16 +1,16 @@
 <?php
 /**
- * This file is part of the Underbar.php package.
+ * This file is part of the Emonkak\Collection.php package.
  *
  * Copyright (C) 2013 Shota Nozaki <emonkak@gmail.com>
  *
  * Licensed under the MIT License
  */
 
-namespace Underbar\Util;
+namespace Emonkak\Collection\Util;
 
-use Underbar\Comparer\IEqualityComparer;
-use Underbar\Iterator\FlattenIterator;
+use Emonkak\Collection\Comparer\IEqualityComparer;
+use Emonkak\Collection\Iterator\FlattenIterator;
 
 class Set implements \IteratorAggregate
 {

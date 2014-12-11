@@ -1,13 +1,13 @@
 <?php
 /**
- * This file is part of the Underbar.php package.
+ * This file is part of the Emonkak\Collection.php package.
  *
  * Copyright (C) 2013 Shota Nozaki <emonkak@gmail.com>
  *
  * Licensed under the MIT License
  */
 
-namespace Underbar\Iterator;
+namespace Emonkak\Collection\Iterator;
 
 class TakeWhileIterator implements \Iterator
 {

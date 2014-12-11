@@ -1,6 +1,6 @@
 <?php
 
-namespace Underbar\Comparer;
+namespace Emonkak\Collection\Comparer;
 
 interface IComparerResolver
 {

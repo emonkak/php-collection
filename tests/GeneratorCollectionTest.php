@@ -1,8 +1,8 @@
 <?php
 
-namespace Underbar\Tests;
+namespace Emonkak\Collection\Tests;
 
-use Underbar\Provider\GeneratorProvider;
+use Emonkak\Collection\Provider\GeneratorProvider;
 
 /**
  * @requires PHP 5.5

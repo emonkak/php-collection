@@ -1,9 +1,9 @@
 <?php
 
-namespace Underbar\Predicate;
+namespace Emonkak\Collection\Predicate;
 
-use Underbar\Selector\ValueSelector;
-use Underbar\Util\Singleton;
+use Emonkak\Collection\Selector\ValueSelector;
+use Emonkak\Collection\Util\Singleton;
 
 class PredicateResolver implements IPredicateResolver
 {

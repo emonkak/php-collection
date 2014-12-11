@@ -1,6 +1,6 @@
 <?php
 
-namespace Underbar\Selector;
+namespace Emonkak\Collection\Selector;
 
 interface IKeySelectorResolver
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Underbar;
+namespace Emonkak\Collection;
 
-use Underbar\Provider\GeneratorProvider;
-use Underbar\Provider\ICollectionProvider;
-use Underbar\Provider\IteratorProvider;
-use Underbar\Util\Iterators;
+use Emonkak\Collection\Provider\GeneratorProvider;
+use Emonkak\Collection\Provider\ICollectionProvider;
+use Emonkak\Collection\Provider\IteratorProvider;
+use Emonkak\Collection\Util\Iterators;
 
 class Collection implements \IteratorAggregate
 {

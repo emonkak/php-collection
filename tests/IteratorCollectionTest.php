@@ -1,8 +1,8 @@
 <?php
 
-namespace Underbar\Tests;
+namespace Emonkak\Collection\Tests;
 
-use Underbar\Provider\IteratorProvider;
+use Emonkak\Collection\Provider\IteratorProvider;
 
 class IteratorCollectionTest extends AbstractLazyCollectionTest
 {

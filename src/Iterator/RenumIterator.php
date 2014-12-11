@@ -1,6 +1,6 @@
 <?php
 
-namespace Underbar\Iterator;
+namespace Emonkak\Collection\Iterator;
 
 class RenumIterator implements \Iterator
 {

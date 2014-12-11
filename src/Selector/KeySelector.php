@@ -1,8 +1,8 @@
 <?php
 
-namespace Underbar\Selector;
+namespace Emonkak\Collection\Selector;
 
-use Underbar\Util\Singleton;
+use Emonkak\Collection\Util\Singleton;
 
 /**
  * Represents the Identity function.

@@ -1,11 +1,11 @@
 <?php
 
-namespace Underbar\Tests;
+namespace Emonkak\Collection\Tests;
 
-use Underbar\Collection;
-use Underbar\Provider\ArrayProvider;
-use Underbar\Provider\IteratorProvider;
-use Underbar\Provider\GeneratorProvider;
+use Emonkak\Collection\Collection;
+use Emonkak\Collection\Provider\ArrayProvider;
+use Emonkak\Collection\Provider\IteratorProvider;
+use Emonkak\Collection\Provider\GeneratorProvider;
 
 abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 {

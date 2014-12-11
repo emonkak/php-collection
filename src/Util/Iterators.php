@@ -1,9 +1,9 @@
 <?php
 
-namespace Underbar\Util;
+namespace Emonkak\Collection\Util;
 
-use Underbar\Iterator\LazyIterator;
-use Underbar\Iterator\MemoizeIterator;
+use Emonkak\Collection\Iterator\LazyIterator;
+use Emonkak\Collection\Iterator\MemoizeIterator;
 
 class Iterators
 {

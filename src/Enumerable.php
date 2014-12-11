@@ -1,13 +1,13 @@
 <?php
 
-namespace Underbar;
+namespace Emonkak\Collection;
 
-use Underbar\Comparer\ComparerResolver;
-use Underbar\Iterator\ParallelIterator;
-use Underbar\Predicate\PredicateResolver;
-use Underbar\Selector\KeySelectorResolver;
-use Underbar\Selector\SelectorResolver;
-use Underbar\Util\Iterators;
+use Emonkak\Collection\Comparer\ComparerResolver;
+use Emonkak\Collection\Iterator\ParallelIterator;
+use Emonkak\Collection\Predicate\PredicateResolver;
+use Emonkak\Collection\Selector\KeySelectorResolver;
+use Emonkak\Collection\Selector\SelectorResolver;
+use Emonkak\Collection\Util\Iterators;
 
 trait Enumerable
 {

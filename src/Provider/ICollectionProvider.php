@@ -1,6 +1,6 @@
 <?php
 
-namespace Underbar\Provider;
+namespace Emonkak\Collection\Provider;
 
 interface ICollectionProvider
 {

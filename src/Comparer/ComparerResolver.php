@@ -1,8 +1,8 @@
 <?php
 
-namespace Underbar\Comparer;
+namespace Emonkak\Collection\Comparer;
 
-use Underbar\Util\Singleton;
+use Emonkak\Collection\Util\Singleton;
 
 class ComparerResolver implements IComparerResolver
 {

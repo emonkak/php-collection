@@ -1,25 +1,25 @@
 <?php
 
-namespace Underbar\Provider;
+namespace Emonkak\Collection\Provider;
 
-use Underbar\Comparer\EqualityComparer;
-use Underbar\Iterator\ConcatMapIterator;
-use Underbar\Iterator\DropWhileIterator;
-use Underbar\Iterator\FlattenIterator;
-use Underbar\Iterator\InitialIterator;
-use Underbar\Iterator\IntersectIterator;
-use Underbar\Iterator\IterateIterator;
-use Underbar\Iterator\MapIterator;
-use Underbar\Iterator\MemoizeIterator;
-use Underbar\Iterator\RangeIterator;
-use Underbar\Iterator\RenumIterator;
-use Underbar\Iterator\RepeatIterator;
-use Underbar\Iterator\SampleIterator;
-use Underbar\Iterator\TakeWhileIterator;
-use Underbar\Iterator\UniqueIterator;
-use Underbar\Iterator\ZipIterator;
-use Underbar\Util\Iterators;
-use Underbar\Util\Singleton;
+use Emonkak\Collection\Comparer\EqualityComparer;
+use Emonkak\Collection\Iterator\ConcatMapIterator;
+use Emonkak\Collection\Iterator\DropWhileIterator;
+use Emonkak\Collection\Iterator\FlattenIterator;
+use Emonkak\Collection\Iterator\InitialIterator;
+use Emonkak\Collection\Iterator\IntersectIterator;
+use Emonkak\Collection\Iterator\IterateIterator;
+use Emonkak\Collection\Iterator\MapIterator;
+use Emonkak\Collection\Iterator\MemoizeIterator;
+use Emonkak\Collection\Iterator\RangeIterator;
+use Emonkak\Collection\Iterator\RenumIterator;
+use Emonkak\Collection\Iterator\RepeatIterator;
+use Emonkak\Collection\Iterator\SampleIterator;
+use Emonkak\Collection\Iterator\TakeWhileIterator;
+use Emonkak\Collection\Iterator\UniqueIterator;
+use Emonkak\Collection\Iterator\ZipIterator;
+use Emonkak\Collection\Util\Iterators;
+use Emonkak\Collection\Util\Singleton;
 
 class IteratorProvider implements ICollectionProvider
 {

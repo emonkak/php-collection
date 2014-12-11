@@ -1,6 +1,6 @@
 <?php
 
-namespace Underbar;
+namespace Emonkak\Collection;
 
 trait EnumerableAliases
 {

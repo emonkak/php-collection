@@ -1,15 +1,15 @@
 <?php
 /**
- * This file is part of the Underbar.php package.
+ * This file is part of the Emonkak\Collection.php package.
  *
  * Copyright (C) 2013 Shota Nozaki <emonkak@gmail.com>
  *
  * Licensed under the MIT License
  */
 
-namespace Underbar\Iterator;
+namespace Emonkak\Collection\Iterator;
 
-use Underbar\Util\Iterators;
+use Emonkak\Collection\Util\Iterators;
 
 class LazyIterator implements \IteratorAggregate
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Underbar\Provider;
+namespace Emonkak\Collection\Provider;
 
-use Underbar\Comparer\EqualityComparer;
-use Underbar\Util\Iterators;
-use Underbar\Util\Set;
-use Underbar\Util\Singleton;
+use Emonkak\Collection\Comparer\EqualityComparer;
+use Emonkak\Collection\Util\Iterators;
+use Emonkak\Collection\Util\Set;
+use Emonkak\Collection\Util\Singleton;
 
 class GeneratorProvider implements ICollectionProvider
 {
