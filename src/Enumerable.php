@@ -60,7 +60,7 @@ trait Enumerable
     public function parMap(callable $f, $workers = 4, $timeout = null)
     {
         if ($workers <= 0) {
-            throw new \InvalidArgumentException('The Worker must be at least one.');
+            throw new \InvalidArgumentException('Workers must be at least one.');
         }
         $it = new ParallelIterator($f, $timeout);
         for ($i = 0; $i < $workers; $i++) {
