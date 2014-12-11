@@ -214,6 +214,29 @@ trait Enumerable
         return $result;
     }
 
+    public function maxWith($comparer)
+    {
+        $it = Iterators::create($this->getSource());
+        $it->rewind();
+        if (!$it->valid()) {
+            return null;
+        }
+
+        $comparer = $this->resolveComparer($comparer);
+        $result = $it->current();
+
+        $it->next();
+        while ($it->valid()) {
+            $current = $it->current();
+            if (call_user_func($comparer, $current, $result) > 0) {
+                $result = $current;
+            }
+            $it->next();
+        }
+
+        return $result;
+    }
+
     public function min($selector = null)
     {
         $xs = $this->getSource();
@@ -227,6 +250,29 @@ trait Enumerable
                 $computed = $current;
                 $result = $x;
             }
+        }
+
+        return $result;
+    }
+
+    public function minWith($comparer)
+    {
+        $it = Iterators::create($this->getSource());
+        $it->rewind();
+        if (!$it->valid()) {
+            return null;
+        }
+
+        $comparer = $this->resolveComparer($comparer);
+        $result = $it->current();
+
+        $it->next();
+        while ($it->valid()) {
+            $current = $it->current();
+            if (call_user_func($comparer, $current, $result) < 0) {
+                $result = $current;
+            }
+            $it->next();
         }
 
         return $result;

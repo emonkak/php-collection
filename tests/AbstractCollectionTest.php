@@ -378,6 +378,24 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideCollectionFactory
      */
+    public function testMaxWith($factory)
+    {
+        $comparer = function($v0, $v1) {
+            if ($v0 == $v1) return 0;
+            return ($v0 < $v1) ? -1 : 1;
+        };
+
+        $this->assertSame(3, $factory([1, 2, 3])->maxWith($comparer), 'can perform a regular max()');
+
+        $this->assertNull($factory([])->maxWith($comparer), 'Maximum value of an empty array');
+        $this->assertSame('a', $factory(['a' => 'a'])->maxWith($comparer), 'Maximum value of a non-numeric collection');
+
+        $this->assertSame(9999, $factory(range(1, 9999))->maxWith($comparer), 'Maximum value of a too-big array');
+    }
+
+    /**
+     * @dataProvider provideCollectionFactory
+     */
     public function testMin($factory)
     {
         $this->assertSame(1, $factory([1, 2, 3])->min(), 'can perform a regular min()');
@@ -396,6 +414,24 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($then, $factory([$then, $now])->min(function($d) { return $d->getTimestamp(); }));
 
         $this->assertSame(1, $factory(range(1, 9999))->min(), 'Minimum value of a too-big array');
+    }
+
+    /**
+     * @dataProvider provideCollectionFactory
+     */
+    public function testMinWith($factory)
+    {
+        $comparer = function($v0, $v1) {
+            if ($v0 == $v1) return 0;
+            return ($v0 < $v1) ? -1 : 1;
+        };
+
+        $this->assertSame(1, $factory([3, 2, 1])->minWith($comparer), 'can perform a regular max()');
+
+        $this->assertNull($factory([])->minWith($comparer), 'Maximum value of an empty array');
+        $this->assertSame('a', $factory(['a' => 'a'])->minWith($comparer), 'Maximum value of a non-numeric collection');
+
+        $this->assertSame(1, $factory(range(1, 9999))->minWith($comparer), 'Maximum value of a too-big array');
     }
 
     /**
