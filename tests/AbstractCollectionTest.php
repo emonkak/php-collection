@@ -16,6 +16,23 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         Collection::setDefaultProvider($this->getCollectionProvider());
     }
 
+    public function testFrom()
+    {
+        $it = new \EmptyIterator();
+        $collection = Collection::from($it);
+
+        $this->assertSame($it, $collection->getSource());
+        $this->assertSame(Collection::getDefaultProvider(), $collection->getProvider());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testFromNotTraverableSource()
+    {
+        Collection::from(0);
+    }
+
     public function tearDown()
     {
         Collection::setDefaultProvider($this->defaultProvider);
