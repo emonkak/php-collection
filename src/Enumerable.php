@@ -448,10 +448,7 @@ trait Enumerable
             $xs = $this->getSource();
             return $this->newCollection($this->getProvider()->take($xs, $n));
         } else {
-            foreach ($this->getSource() as $x) {
-                return $x;
-            }
-            throw new \RuntimeException('This collection is empty');
+            return $this->firstOrElse(null);
         }
     }
 
@@ -475,12 +472,7 @@ trait Enumerable
             $xs = $this->getSource();
             return $this->newCollection($this->getProvider()->takeRight($xs, $n));
         } else {
-            foreach ($this->getSource() as $x) {
-            }
-            if (isset($x)) {
-                return $x;
-            }
-            throw new \RuntimeException('This collection is empty');
+            return $this->lastOrElse(null);
         }
     }
 

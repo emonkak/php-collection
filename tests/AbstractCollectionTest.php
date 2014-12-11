@@ -761,6 +761,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $result = $factory([1, 2, 3])->first();
         $this->assertSame(1, $result, 'can pull out the first element of an array');
+        $this->assertNull($factory([])->first(), $result, 'works well with empty array');
 
         $result = $factory([1, 2, 3])->first(0)->toList();
         $this->assertSame([], $result, 'can pass an index to first');
@@ -776,15 +777,6 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 
         $result = $factory([1, 2, 3])->head(2)->toList();
         $this->assertSame([1, 2], $result, 'aliased as head');
-    }
-
-    /**
-     * @dataProvider provideCollectionFactory
-     * @expectedException \RuntimeException
-     */
-    public function testFirstOfEmptyCollectionThrowsException($factory)
-    {
-        $factory([])->first();
     }
 
     /**
@@ -893,6 +885,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $result = $factory([1, 2, 3])->last();
         $this->assertSame(3, $result, 'can pull out the last element of an array');
+        $this->assertNull($factory([])->last(), $result, 'works well with empty array');
 
         $result = $factory([1, 2, 3])->last(0)->toList();
         $this->assertSame([], $result, 'can pass an index to last');
@@ -902,15 +895,6 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 
         $result = $factory([1, 2, 3])->last(5)->toList();
         $this->assertSame([1, 2, 3], $result, 'can pass an index to last');
-    }
-
-    /**
-     * @dataProvider provideCollectionFactory
-     * @expectedException \RuntimeException
-     */
-    public function testLastOfEmptyCollection($factory)
-    {
-        $factory([])->last();
     }
 
     /**
