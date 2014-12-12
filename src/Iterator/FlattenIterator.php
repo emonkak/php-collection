@@ -9,6 +9,8 @@
 
 namespace Emonkak\Collection\Iterator;
 
+use Emonkak\Collection\Util\Iterators;
+
 class FlattenIterator extends \IteratorIterator implements \RecursiveIterator
 {
     private $shallow;
@@ -21,18 +23,14 @@ class FlattenIterator extends \IteratorIterator implements \RecursiveIterator
 
     public function getChildren()
     {
-        $inner = $this->current();
-        if (is_array($inner)) {
-            $inner = new \ArrayIterator($inner);
-        }
+        $inner = Iterators::create($this->current());
         return $this->shallow
             ? new NonRecursiveIterator($inner)
-            : new self($inner, $this->shallow);
+            : new FlattenIterator($inner, $this->shallow);
     }
 
     public function hasChildren()
     {
-        $inner = $this->current();
-        return is_array($inner) || $inner instanceof \Traversable;
+        return Iterators::isTraversable($this->current());
     }
 }
