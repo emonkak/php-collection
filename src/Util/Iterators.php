@@ -27,7 +27,7 @@ class Iterators
         throw new \InvalidArgumentException("'$type' is not iterable.");
     }
 
-    public static function createLazy($factory)
+    public static function createLazy(callable $factory)
     {
         return new LazyIterator($factory);
     }

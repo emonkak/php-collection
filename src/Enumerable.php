@@ -813,7 +813,7 @@ trait Enumerable
         return new Collection($source, $this->getProvider());
     }
 
-    private function newLazyCollection($factory)
+    private function newLazyCollection(callable $factory)
     {
         return new Collection(Iterators::createLazy($factory), $this->getProvider());
     }

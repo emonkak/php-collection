@@ -15,7 +15,7 @@ class LazyIterator implements \IteratorAggregate
 {
     private $factory;
 
-    public function __construct($factory)
+    public function __construct(callable $factory)
     {
         $this->factory = $factory;
     }
