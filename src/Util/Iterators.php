@@ -22,9 +22,8 @@ class Iterators
         if (is_array($src)) {
             return new \ArrayIterator($src);
         }
-
         $type = gettype($src);
-        throw new \InvalidArgumentException("'$type' is not iterable.");
+        throw new \InvalidArgumentException("'$type' can not be iterable.");
     }
 
     public static function createLazy(callable $factory)
@@ -116,7 +115,7 @@ class Iterators
             return iterator_count($src);
         }
         $type = gettype($src);
-        throw new \InvalidArgumentException("'$type' is not countable.");
+        throw new \InvalidArgumentException("'$type' can not be countable.");
     }
 
     public static function isTraversable($src)
@@ -146,6 +145,6 @@ class Iterators
             return false;
         }
         $type = gettype($src);
-        throw new \InvalidArgumentException("'$type' is not countable.");
+        throw new \InvalidArgumentException("'$type' can not be countable.");
     }
 }
