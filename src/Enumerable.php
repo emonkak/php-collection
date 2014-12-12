@@ -13,11 +13,29 @@ trait Enumerable
 {
     abstract public function getSource();
 
-    abstract public function getProvider();
-
-    public function getIterator()
+    public function getProvider()
     {
-        return Iterators::create($this->getSource());
+        return Collection::getDefaultProvider();
+    }
+
+    public function getComparerResolver()
+    {
+        return ComparerResolver::getInstance();
+    }
+
+    public function getSelectorResolver()
+    {
+        return SelectorResolver::getInstance();
+    }
+
+    public function getKeySelectorResolver()
+    {
+        return KeySelectorResolver::getInstance();
+    }
+
+    public function getPredicateResolver()
+    {
+        return PredicateResolver::getInstance();
     }
 
     /**
@@ -786,26 +804,6 @@ trait Enumerable
     {
         $xs = $this->getSource();
         return Iterators::isEmpty($xs);
-    }
-
-    protected function getComparerResolver()
-    {
-        return ComparerResolver::getInstance();
-    }
-
-    protected function getSelectorResolver()
-    {
-        return SelectorResolver::getInstance();
-    }
-
-    protected function getKeySelectorResolver()
-    {
-        return KeySelectorResolver::getInstance();
-    }
-
-    protected function getPredicateResolver()
-    {
-        return PredicateResolver::getInstance();
     }
 
     private function newCollection($source)

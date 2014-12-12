@@ -12,16 +12,16 @@ class EqualityComparer implements IEqualityComparer
     {
     }
 
-    public function equals($v0, $v1)
+    public function equals($x, $y)
     {
-        if (is_object($v0) && is_object($v1)) {
-            return $v0 == $v1;
+        if (is_object($x) && is_object($y)) {
+            return $x == $y;
         }
-        return $v0 === $v1;
+        return $x === $y;
     }
 
-    public function hash($v)
+    public function hash($x)
     {
-        return sha1(serialize($v));
+        return sha1(serialize($x));
     }
 }

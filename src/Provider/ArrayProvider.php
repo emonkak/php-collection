@@ -3,8 +3,8 @@
 namespace Emonkak\Collection\Provider;
 
 use Emonkak\Collection\Comparer\EqualityComparer;
+use Emonkak\Collection\Set;
 use Emonkak\Collection\Util\Iterators;
-use Emonkak\Collection\Util\Set;
 use Emonkak\Collection\Util\Singleton;
 
 class ArrayProvider implements ICollectionProvider

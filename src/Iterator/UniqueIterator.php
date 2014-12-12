@@ -10,22 +10,22 @@
 namespace Emonkak\Collection\Iterator;
 
 use Emonkak\Collection\Comparer\EqualityComparer;
-use Emonkak\Collection\Util\Set;
+use Emonkak\Collection\Set;
 
 class UniqueIterator implements \Iterator
 {
     private $it;
     private $selector;
-    private $equalityComparer;
+    private $eqComparer;
     private $set;
     private $current;
     private $key;
 
-    public function __construct(\Iterator $it, callable $selector, EqualityComparer $equalityComparer)
+    public function __construct(\Iterator $it, callable $selector, EqualityComparer $eqComparer)
     {
         $this->it = $it;
         $this->selector = $selector;
-        $this->equalityComparer = $equalityComparer;
+        $this->eqComparer = $eqComparer;
     }
 
     public function current()
@@ -46,7 +46,7 @@ class UniqueIterator implements \Iterator
 
     public function rewind()
     {
-        $this->set = new Set($this->equalityComparer);
+        $this->set = new Set($this->eqComparer);
         $this->it->rewind();
         $this->fetch();
     }

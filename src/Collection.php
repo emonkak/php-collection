@@ -80,6 +80,11 @@ class Collection implements \IteratorAggregate
     {
         return $this->provider;
     }
+
+    public function getIterator()
+    {
+        return Iterators::create($this->source);
+    }
 }
 
 if (class_exists('Generator')) {
