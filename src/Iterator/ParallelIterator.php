@@ -16,7 +16,7 @@ class ParallelIterator implements \Iterator, \Countable
      *
      * @var array
      */
-    private $sockets = array();
+    private $sockets = [];
 
     /**
      * The queue of processing data
@@ -137,7 +137,6 @@ class ParallelIterator implements \Iterator, \Countable
      * Push a value to the queue.
      *
      * @param mixed $value
-     * @return void
      */
     public function push($value)
     {
@@ -149,7 +148,6 @@ class ParallelIterator implements \Iterator, \Countable
      * Push all values to the queue.
      *
      * @param array $values
-     * @return void
      */
     public function pushAll($values)
     {
@@ -323,8 +321,6 @@ class ParallelIterator implements \Iterator, \Countable
     /**
      * Read process results.
      * Block when results are empty.
-     *
-     * @return void
      */
     private function fill()
     {
