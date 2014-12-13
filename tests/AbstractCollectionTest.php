@@ -492,7 +492,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(['moe', 'curly'], $result, 'stooges sorted by age');
 
         $list = [null, 4, 1, null, 3, 2];
-        $sorted = $factory($list)->sortBy()->toArray();
+        $sorted = $factory($list)->sortBy(function($x) { return $x; })->toArray();
         $this->assertSame([null, null, 1, 2, 3, 4], $sorted, 'sortBy with undefined values');
 
         $list = ['one', 'two', 'three', 'four', 'five'];
@@ -549,7 +549,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame([4.2], $grouped['two']);
 
         $grouped = $factory([1, 2, 1, 2, 3])
-            ->groupBy()
+            ->groupBy(function($x) { return $x; })
             ->toArray();
         $this->assertEquals([1 => [1, 1], 2 => [2, 2], 3 => [3]], $grouped);
 
@@ -607,7 +607,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             2 => 2,
             3 => 3
         ];
-        $grouped = $factory($array)->indexBy()->toArray();
+        $grouped = $factory($array)->indexBy(function($x) { return $x; })->toArray();
         $this->assertEquals($shouldBe, $grouped);
     }
 
@@ -635,7 +635,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['one' => 2, 'two' => 1], $grouped);
 
         $grouped = $factory([1, 2, 1, 2, 3])
-            ->countBy()
+            ->countBy(function($x) { return $x; })
             ->toArray();
         $this->assertEquals([1 => 2, 2 => 2, 3 => 1], $grouped);
     }
