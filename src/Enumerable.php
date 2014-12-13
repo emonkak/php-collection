@@ -580,9 +580,9 @@ trait Enumerable
 
     public function sort($comparer = null)
     {
+        $comparer = $this->resolveComparer($comparer);
         return $this->newLazyCollection(function() use ($comparer) {
             $xs = Iterators::toArray($this->getSource());
-            $comparer = $this->resolveComparer($comparer);
             usort($xs, $comparer);
             return $xs;
         });
