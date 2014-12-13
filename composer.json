@@ -15,12 +15,14 @@
         "php": ">=5.4.0"
     },
     "require-dev": {
+      "athletic/athletic": "~0.1.8",
       "phpunit/phpunit": "~4.4.0",
       "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
         "psr-4": {
             "Emonkak\\Collection\\": "src/",
+            "Emonkak\\Collection\\Benchmarks\\": "benchmarks/",
             "Emonkak\\Collection\\Tests\\": "tests/"
         }
     }
