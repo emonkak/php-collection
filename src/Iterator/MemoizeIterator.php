@@ -16,6 +16,7 @@ class MemoizeIterator implements \Iterator
     private $cachedElements = [];
     private $cachedKeys = [];
     private $cacheSize = 0;
+    private $cacheCompleted = false;
 
     public function __construct(\Iterator $it)
     {
@@ -35,7 +36,7 @@ class MemoizeIterator implements \Iterator
     public function next()
     {
         $this->index++;
-        if ($this->cacheSize === $this->index) {
+        if (!$this->cacheCompleted) {
             $this->it->next();
             $this->memo();
         }
@@ -44,7 +45,7 @@ class MemoizeIterator implements \Iterator
     public function rewind()
     {
         $this->index = 0;
-        if ($this->cacheSize === 0) {
+        if (!$this->cacheCompleted && $this->cacheSize === 0) {
             $this->it->rewind();
             $this->memo();
         }
@@ -57,12 +58,12 @@ class MemoizeIterator implements \Iterator
 
     private function memo()
     {
-        if (!$this->it->valid()) {
-            return;
+        if ($this->it->valid()) {
+            $this->cachedElements[] = $this->it->current();
+            $this->cachedKeys[] = $this->it->key();
+            $this->cacheSize++;
+        } else {
+            $this->cacheCompleted = true;
         }
-
-        $this->cachedElements[] = $this->it->current();
-        $this->cachedKeys[] = $this->it->key();
-        $this->cacheSize++;
     }
 }
