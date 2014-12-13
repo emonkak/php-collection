@@ -329,7 +329,7 @@ trait Enumerable
         return $n > 0 ? $total / $n : INF;
     }
 
-    public function sortBy($selector = null)
+    public function sortBy($selector)
     {
         $selector = $this->resolveSelector($selector);
         return $this->newLazyCollection(function() use ($selector) {
@@ -358,7 +358,7 @@ trait Enumerable
         });
     }
 
-    public function groupBy($selector = null)
+    public function groupBy($selector)
     {
         $selector = $this->resolveSelector($selector);
         return $this->newLazyCollection(function() use ($selector) {
@@ -374,7 +374,7 @@ trait Enumerable
         });
     }
 
-    public function indexBy($selector = null)
+    public function indexBy($selector)
     {
         $xs = $this->getSource();
         $valueSelector = $this->resolveSelector(null);
@@ -382,7 +382,7 @@ trait Enumerable
         return $this->newCollection($this->getProvider()->map($xs, $valueSelector, $keySelector));
     }
 
-    public function countBy($selector = null)
+    public function countBy($selector)
     {
         $selector = $this->resolveSelector($selector);
         return $this->newLazyCollection(function() use ($selector) {
