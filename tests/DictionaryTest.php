@@ -115,6 +115,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testPut
+     * @requires PHP 5.5
      */
     public function testGetIterator(Dictionary $dict)
     {
