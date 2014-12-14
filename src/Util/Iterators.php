@@ -38,14 +38,17 @@ class Iterators
 
     public static function toArray($src)
     {
+        if (is_array($src)) {
+            return $src;
+        }
+        while ($src instanceof \IteratorAggregate) {
+            $src = $src->getIterator();
+        }
         if ($src instanceof \ArrayIterator) {
             return $src->getArrayCopy();
         }
         if ($src instanceof \Traversable) {
             return iterator_to_array($src, true);
-        }
-        if (is_array($src)) {
-            return $src;
         }
         $type = gettype($src);
         throw new \InvalidArgumentException("'$type' can not convert to array.");
@@ -72,6 +75,9 @@ class Iterators
     {
         if (is_array($src)) {
             return array_values($src);
+        }
+        while ($src instanceof \IteratorAggregate) {
+            $src = $src->getIterator();
         }
         if ($src instanceof \ArrayIterator) {
             return array_values($src->getArrayCopy());
