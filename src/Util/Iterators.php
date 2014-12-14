@@ -96,7 +96,7 @@ class Iterators
         } else {
             $acc = [];
             foreach ($src as $v) {
-                if ($v instanceof \Traversable) {
+                if (self::isTraversable($v)) {
                     $acc[] = self::toListRec($v, $depth - 1);
                 } else {
                     $acc[] = $v;

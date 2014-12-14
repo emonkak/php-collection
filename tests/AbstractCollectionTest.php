@@ -720,9 +720,9 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $xs = $array(['one' => 1, 'two' => 2, 'three' => 3]);
         $this->assertSame(['one' => 1, 'two' => 2, 'three' => 3], $factory($xs)->toArrayRec());
 
-        $xs = $array(['one' => $array([1]), 'two' => $array([2]), 'three' => $array([3, $array([4])])]);
-        $this->assertSame(['one' => [1], 'two' => [2], 'three' => [3, [4]]], $factory($xs)->toArrayRec());
-        $this->assertEquals(['one' => [1], 'two' => [2], 'three' => [3, new \ArrayIterator([4])]], $factory($xs)->toArrayRec(2));
+        $xs = $array(['one' => $array([1]), 'two' => $array([2]), $array(['three' => 3, $array(['four' => 4])])]);
+        $this->assertSame(['one' => [1], 'two' => [2], ['three' => 3, ['four' => 4]]], $factory($xs)->toArrayRec());
+        $this->assertEquals(['one' => [1], 'two' => [2], ['three' => 3, new \ArrayIterator(['four' => 4])]], $factory($xs)->toArrayRec(2));
     }
 
     /**
@@ -756,9 +756,9 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $xs = $array(['one' => 1, 'two' => 2, 'three' => 3]);
         $this->assertSame([1, 2, 3], $factory($xs)->toListRec());
 
-        $xs = $array(['one' => $array([1]), 'two' => $array([2]), 'three' => $array([3, $array([4])])]);
+        $xs = $array(['one' => $array([1]), 'two' => $array([2]), $array(['three' => 3, $array(['four' => 4])])]);
         $this->assertSame([[1], [2], [3, [4]]], $factory($xs)->toListRec());
-        $this->assertEquals([[1], [2], [3, new \ArrayIterator([4])]], $factory($xs)->toListRec(2));
+        $this->assertEquals([[1], [2], [3, new \ArrayIterator(['four' => 4])]], $factory($xs)->toListRec(2));
     }
 
     /**
