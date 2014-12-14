@@ -10,7 +10,7 @@ use Emonkak\Collection\Provider\GeneratorProvider;
 trait CollectionBenchmark
 {
     /**
-     * @iterations 1000
+     * @iterations 100
      */
     public function arrayProvider()
     {
@@ -18,7 +18,7 @@ trait CollectionBenchmark
     }
 
     /**
-     * @iterations 1000
+     * @iterations 100
      */
     public function iteratorProvider()
     {
@@ -26,7 +26,7 @@ trait CollectionBenchmark
     }
 
     /**
-     * @iterations 1000
+     * @iterations 100
      */
     public function generatorProvider()
     {

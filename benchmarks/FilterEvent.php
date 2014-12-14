@@ -3,6 +3,7 @@
 namespace Emonkak\Collection\Benchmarks;
 
 use Athletic\AthleticEvent;
+use Emonkak\Collection\Collection;
 
 class FilterEvent extends AthleticEvent
 {
@@ -10,16 +11,16 @@ class FilterEvent extends AthleticEvent
 
     public function setUp()
     {
-        $this->data = range(0, 100);
+        $this->data = range(0, 1000);
         $this->predicate = function($x) {
             return $x % 2 === 0;
         };
     }
 
     /**
-     * @iterations 1000
+     * @iterations 100
      */
-    public function array_filter()
+    public function arrayImpl()
     {
         foreach (array_filter($this->data, $this->predicate) as $x);
     }

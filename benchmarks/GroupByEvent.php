@@ -4,7 +4,7 @@ namespace Emonkak\Collection\Benchmarks;
 
 use Athletic\AthleticEvent;
 
-class MapEvent extends AthleticEvent
+class GroupByEvent extends AthleticEvent
 {
     use CollectionBenchmark;
 
@@ -12,20 +12,12 @@ class MapEvent extends AthleticEvent
     {
         $this->data = range(0, 1000);
         $this->selector = function($x) {
-            return $x * 2;
+            return $x % 10;
         };
-    }
-
-    /**
-     * @iterations 100
-     */
-    public function arrayImpl()
-    {
-        foreach (array_map($this->selector, $this->data) as $x);
     }
 
     protected function execute($xs)
     {
-        foreach ($xs->map($this->selector) as $x);
+        foreach ($xs->groupBy($this->selector) as $k => $x);
     }
 }

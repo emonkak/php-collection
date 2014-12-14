@@ -4,16 +4,13 @@ namespace Emonkak\Collection\Benchmarks;
 
 use Athletic\AthleticEvent;
 
-class MapEvent extends AthleticEvent
+class JoinEvent extends AthleticEvent
 {
     use CollectionBenchmark;
 
     public function setUp()
     {
         $this->data = range(0, 1000);
-        $this->selector = function($x) {
-            return $x * 2;
-        };
     }
 
     /**
@@ -21,11 +18,11 @@ class MapEvent extends AthleticEvent
      */
     public function arrayImpl()
     {
-        foreach (array_map($this->selector, $this->data) as $x);
+        implode(',', $this->data);
     }
 
     protected function execute($xs)
     {
-        foreach ($xs->map($this->selector) as $x);
+        $xs->join(',');
     }
 }
