@@ -38,7 +38,7 @@ class MemoizeIterator implements \Iterator
     public function rewind()
     {
         $this->index = 0;
-        if (!$this->cacheCompleted && $this->cacheSize === 0) {
+        if (!$this->cacheCompleted) {
             $this->it->rewind();
             $this->memo();
         }
