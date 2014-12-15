@@ -212,6 +212,36 @@ trait Enumerable
         });
     }
 
+    /**
+     * @param array|\Traversable $inner
+     * @param mixed $outerKeySelector (outerValue, outerKey, outer) -> joinKey
+     * @param mixed $innerKeySelector (innerValue, innerKey, outer) -> joinKey
+     * @param callable $resultValueSelector (outerValue, innerValue) -> resultValue
+     * @return Collection
+     */
+    public function join($inner, $outerKeySelector, $innerKeySelector, callable $resultValueSelector)
+    {
+        $outer = $this->getSource();
+        $outerKeySelector = $this->resolveSelector($outerKeySelector);
+        $innerKeySelector = $this->resolveSelector($innerKeySelector);
+        return $this->newCollection($this->getProvider()->join($outer, $inner, $outerKeySelector, $innerKeySelector, $resultValueSelector));
+    }
+
+    /**
+     * @param array|\Traversable $inner
+     * @param mixed $outerKeySelector (outerValue, outerKey, outer) -> joinKey
+     * @param mixed $innerKeySelector (innerValue, innerKey, outer) -> joinKey
+     * @param callable $resultValueSelector (outerValue, innerValues[]) -> resultValue
+     * @return Collection
+     */
+    public function groupJoin($inner, $outerKeySelector, $innerKeySelector, callable $resultValueSelector)
+    {
+        $outer = $this->getSource();
+        $outerKeySelector = $this->resolveSelector($outerKeySelector);
+        $innerKeySelector = $this->resolveSelector($innerKeySelector);
+        return $this->newCollection($this->getProvider()->groupJoin($outer, $inner, $outerKeySelector, $innerKeySelector, $resultValueSelector));
+    }
+
     public function max($selector = null)
     {
         $xs = $this->getSource();
@@ -693,7 +723,7 @@ trait Enumerable
         return $low;
     }
 
-    public function join($separator = ',')
+    public function intercalate($separator = ',')
     {
         $str = '';
         foreach ($this->getSource() as $x) {

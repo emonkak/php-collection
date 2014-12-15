@@ -256,6 +256,107 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideCollectionFactory
      */
+    public function testJoin($factory)
+    {
+        $talents = [
+            ['id' => 1, 'name' => 'Sumire Uesaka'],
+            ['id' => 2, 'name' => 'Mikako Komatsu'],
+            ['id' => 3, 'name' => 'Rumi okubo'],
+            ['id' => 4, 'name' => 'Natsumi Takamori'],
+            ['id' => 5, 'name' => 'Shiori Mikami'],
+        ];
+        $users = [
+            ['talent_id' => 1, 'user_id' => 139557376],
+            ['talent_id' => 2, 'user_id' => 255386927],
+            ['talent_id' => 2, 'user_id' => 53669663],
+            ['talent_id' => 4, 'user_id' => 2445518118],
+            ['talent_id' => 5, 'user_id' => 199932799]
+        ];
+
+        $shouldBe = [
+            ['id' => 1, 'name' => 'Sumire Uesaka', 'user' => $users[0]],
+            ['id' => 2, 'name' => 'Mikako Komatsu', 'user' => $users[1]],
+            ['id' => 2, 'name' => 'Mikako Komatsu', 'user' => $users[2]],
+            ['id' => 4, 'name' => 'Natsumi Takamori', 'user' => $users[3]],
+            ['id' => 5, 'name' => 'Shiori Mikami', 'user' => $users[4]],
+        ];
+        $result = $factory($talents)
+            ->join(
+                $users,
+                function($talent) { return $talent['id']; },
+                function($user) { return $user['talent_id']; },
+                function($talent, $user) {
+                    $talent['user'] = $user;
+                    return $talent;
+                }
+            )->toList();
+        $this->assertEquals($shouldBe, $result);
+    }
+
+    /**
+     * @dataProvider provideCollectionFactory
+     */
+    public function testGroupJoin($factory)
+    {
+        $users = [
+            ['id' => 1, 'name' => 'Sumire Uesaka'],
+            ['id' => 2, 'name' => 'Mikako Komatsu'],
+            ['id' => 3, 'name' => 'Rumi okubo'],
+            ['id' => 4, 'name' => 'Natsumi Takamori'],
+            ['id' => 5, 'name' => 'Shiori Mikami'],
+        ];
+        $tweets = [
+            ['user_id' => 1, 'body' => 'foo'],
+            ['user_id' => 1, 'body' => 'bar'],
+            ['user_id' => 1, 'body' => 'baz'],
+            ['user_id' => 3, 'body' => 'hoge'],
+            ['user_id' => 3, 'body' => 'fuga'],
+            ['user_id' => 5, 'body' => 'piyo']
+        ];
+
+        $shouldBe = [
+            [
+                'id' => 1,
+                'name' => 'Sumire Uesaka',
+                'tweets' => [$tweets[0], $tweets[1], $tweets[2]]
+            ],
+            [
+                'id' => 2,
+                'name' => 'Mikako Komatsu',
+                'tweets' => []
+            ],
+            [
+                'id' => 3,
+                'name' => 'Rumi okubo',
+                'tweets' => [$tweets[3], $tweets[4]]
+            ],
+            [
+                'id' => 4,
+                'name' => 'Natsumi Takamori',
+                'tweets' => []
+            ],
+            [
+                'id' => 5,
+                'name' => 'Shiori Mikami',
+                'tweets' => [$tweets[5]]
+            ],
+        ];
+        $result = $factory($users)
+            ->groupJoin(
+                $tweets,
+                function($user) { return $user['id']; },
+                function($user) { return $user['user_id']; },
+                function($user, $tweets) {
+                    $user['tweets'] = $tweets;
+                    return $user;
+                }
+            )->toList();
+        $this->assertEquals($shouldBe, $result);
+    }
+
+    /**
+     * @dataProvider provideCollectionFactory
+     */
     public function testWhere($factory)
     {
         $list = [
@@ -1236,19 +1337,19 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideCollectionFactory
      */
-    public function testJoin($factory)
+    public function testIntercalate($factory)
     {
         $xs = ['Wind', 'Rain', 'Fire'];
-        $this->assertSame('Wind,Rain,Fire', $factory($xs)->join());
-        $this->assertSame('Wind, Rain, Fire', $factory($xs)->join(', '));
-        $this->assertSame('Wind + Rain + Fire', $factory($xs)->join(' + '));
-        $this->assertSame('WindRainFire', $factory($xs)->join(''));
+        $this->assertSame('Wind,Rain,Fire', $factory($xs)->intercalate());
+        $this->assertSame('Wind, Rain, Fire', $factory($xs)->intercalate(', '));
+        $this->assertSame('Wind + Rain + Fire', $factory($xs)->intercalate(' + '));
+        $this->assertSame('WindRainFire', $factory($xs)->intercalate(''));
 
         $xs = new \ArrayIterator(['Wind', 'Rain', 'Fire']);
-        $this->assertSame('Wind,Rain,Fire', $factory($xs)->join());
-        $this->assertSame('Wind, Rain, Fire', $factory($xs)->join(', '));
-        $this->assertSame('Wind + Rain + Fire', $factory($xs)->join(' + '));
-        $this->assertSame('WindRainFire', $factory($xs)->join(''));
+        $this->assertSame('Wind,Rain,Fire', $factory($xs)->intercalate());
+        $this->assertSame('Wind, Rain, Fire', $factory($xs)->intercalate(', '));
+        $this->assertSame('Wind + Rain + Fire', $factory($xs)->intercalate(' + '));
+        $this->assertSame('WindRainFire', $factory($xs)->intercalate(''));
     }
 
     /**

@@ -59,6 +59,80 @@ class ArrayProvider implements ICollectionProvider
     /**
      * {@inheritdoc}
      */
+    public function join($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
+    {
+        $lookupTable = [];
+        foreach ($inner as $innerKey => $innerValue) {
+            $joinKey = call_user_func(
+                $innerKeySelector,
+                $innerValue,
+                $innerKey,
+                $inner
+            );
+            $lookupTable[$joinKey][] = $innerValue;
+        }
+
+        $results = [];
+        foreach ($outer as $outerKey => $outerValue) {
+            $joinKey = call_user_func(
+                $outerKeySelector,
+                $outerValue,
+                $outerKey,
+                $outer
+            );
+            if (!isset($lookupTable[$joinKey])) {
+                continue;
+            }
+            foreach ($lookupTable[$joinKey] as $innerValue) {
+                $results[] = call_user_func(
+                    $resultValueSelector,
+                    $outerValue,
+                    $innerValue
+                );
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function groupJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
+    {
+        $lookupTable = [];
+        foreach ($inner as $innerKey => $innerValue) {
+            $joinKey = call_user_func(
+                $innerKeySelector,
+                $innerValue,
+                $innerKey,
+                $inner
+            );
+            $lookupTable[$joinKey][] = $innerValue;
+        }
+
+        $results = [];
+        foreach ($outer as $outerKey => $outerValue) {
+            $joinKey = call_user_func(
+                $outerKeySelector,
+                $outerValue,
+                $outerKey,
+                $outer
+            );
+            $inners = isset($lookupTable[$joinKey]) ? $lookupTable[$joinKey] : [];
+            $results[] = call_user_func(
+                $resultValueSelector,
+                $outerValue,
+                $inners
+            );
+        }
+
+        return $results;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function sample($xs, $n)
     {
         $array = Iterators::toArray($xs);

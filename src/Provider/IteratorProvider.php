@@ -6,9 +6,11 @@ use Emonkak\Collection\Comparer\EqualityComparer;
 use Emonkak\Collection\Iterator\ConcatMapIterator;
 use Emonkak\Collection\Iterator\DropWhileIterator;
 use Emonkak\Collection\Iterator\FlattenIterator;
+use Emonkak\Collection\Iterator\GroupJoinIterator;
 use Emonkak\Collection\Iterator\InitialIterator;
 use Emonkak\Collection\Iterator\IntersectIterator;
 use Emonkak\Collection\Iterator\IterateIterator;
+use Emonkak\Collection\Iterator\JoinIterator;
 use Emonkak\Collection\Iterator\MapIterator;
 use Emonkak\Collection\Iterator\MemoizeIterator;
 use Emonkak\Collection\Iterator\RangeIterator;
@@ -52,6 +54,34 @@ class IteratorProvider implements ICollectionProvider
     public function filter($xs, callable $predicate)
     {
         return new \CallbackFilterIterator(Iterators::create($xs), $predicate);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function join($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
+    {
+        return new JoinIterator(
+            Iterators::create($outer),
+            Iterators::create($inner),
+            $outerKeySelector,
+            $innerKeySelector,
+            $resultValueSelector
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function groupJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
+    {
+        return new GroupJoinIterator(
+            Iterators::create($outer),
+            Iterators::create($inner),
+            $outerKeySelector,
+            $innerKeySelector,
+            $resultValueSelector
+        );
     }
 
     /**
