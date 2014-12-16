@@ -61,35 +61,43 @@ class GeneratorProvider implements ICollectionProvider
      */
     public function join($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
     {
-        $lookupTable = [];
-        foreach ($inner as $innerKey => $innerValue) {
-            $joinKey = call_user_func(
-                $innerKeySelector,
-                $innerValue,
-                $innerKey,
-                $inner
-            );
-            $lookupTable[$joinKey][] = $innerValue;
-        }
-
-        foreach ($outer as $outerKey => $outerValue) {
-            $joinKey = call_user_func(
-                $outerKeySelector,
-                $outerValue,
-                $outerKey,
-                $outer
-            );
-            if (!isset($lookupTable[$joinKey])) {
-                continue;
-            }
-            foreach ($lookupTable[$joinKey] as $innerValue) {
-                yield call_user_func(
-                    $resultValueSelector,
-                    $outerValue,
-                    $innerValue
+        return Iterators::createLazy(function() use (
+            $outer,
+            $inner,
+            $outerKeySelector,
+            $innerKeySelector,
+            $resultValueSelector
+        ) {
+            $lookupTable = [];
+            foreach ($inner as $innerKey => $innerValue) {
+                $joinKey = call_user_func(
+                    $innerKeySelector,
+                    $innerValue,
+                    $innerKey,
+                    $inner
                 );
+                $lookupTable[$joinKey][] = $innerValue;
             }
-        }
+
+            foreach ($outer as $outerKey => $outerValue) {
+                $joinKey = call_user_func(
+                    $outerKeySelector,
+                    $outerValue,
+                    $outerKey,
+                    $outer
+                );
+                if (!isset($lookupTable[$joinKey])) {
+                    continue;
+                }
+                foreach ($lookupTable[$joinKey] as $innerValue) {
+                    yield call_user_func(
+                        $resultValueSelector,
+                        $outerValue,
+                        $innerValue
+                    );
+                }
+            }
+        });
     }
 
     /**
@@ -97,31 +105,39 @@ class GeneratorProvider implements ICollectionProvider
      */
     public function groupJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
     {
-        $lookupTable = [];
-        foreach ($inner as $innerKey => $innerValue) {
-            $joinKey = call_user_func(
-                $innerKeySelector,
-                $innerValue,
-                $innerKey,
-                $inner
-            );
-            $lookupTable[$joinKey][] = $innerValue;
-        }
+        return Iterators::createLazy(function() use (
+            $outer,
+            $inner,
+            $outerKeySelector,
+            $innerKeySelector,
+            $resultValueSelector
+        ) {
+            $lookupTable = [];
+            foreach ($inner as $innerKey => $innerValue) {
+                $joinKey = call_user_func(
+                    $innerKeySelector,
+                    $innerValue,
+                    $innerKey,
+                    $inner
+                );
+                $lookupTable[$joinKey][] = $innerValue;
+            }
 
-        foreach ($outer as $outerKey => $outerValue) {
-            $joinKey = call_user_func(
-                $outerKeySelector,
-                $outerValue,
-                $outerKey,
-                $outer
-            );
-            $inners = isset($lookupTable[$joinKey]) ? $lookupTable[$joinKey] : [];
-            yield call_user_func(
-                $resultValueSelector,
-                $outerValue,
-                $inners
-            );
-        }
+            foreach ($outer as $outerKey => $outerValue) {
+                $joinKey = call_user_func(
+                    $outerKeySelector,
+                    $outerValue,
+                    $outerKey,
+                    $outer
+                );
+                $inners = isset($lookupTable[$joinKey]) ? $lookupTable[$joinKey] : [];
+                yield call_user_func(
+                    $resultValueSelector,
+                    $outerValue,
+                    $inners
+                );
+            }
+        });
     }
 
     /**
