@@ -21,7 +21,8 @@ class Collection implements \IteratorAggregate
     public static function from($source)
     {
         if (!Iterators::isTraversable($source)) {
-            throw new \InvalidArgumentException('This source can not be traversable.');
+            $type = gettype($source);
+            throw new \InvalidArgumentException("'$type' can not be traversable.");
         }
 
         return new Collection($source, self::$defaultProvider);
