@@ -261,7 +261,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $talents = [
             ['id' => 1, 'name' => 'Sumire Uesaka'],
             ['id' => 2, 'name' => 'Mikako Komatsu'],
-            ['id' => 3, 'name' => 'Rumi okubo'],
+            ['id' => 3, 'name' => 'Rumi Okubo'],
             ['id' => 4, 'name' => 'Natsumi Takamori'],
             ['id' => 5, 'name' => 'Shiori Mikami'],
         ];
@@ -296,12 +296,53 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideCollectionFactory
      */
+    public function testOuterJoin($factory)
+    {
+        $talents = [
+            ['id' => 1, 'name' => 'Sumire Uesaka'],
+            ['id' => 2, 'name' => 'Mikako Komatsu'],
+            ['id' => 3, 'name' => 'Rumi Okubo'],
+            ['id' => 4, 'name' => 'Natsumi Takamori'],
+            ['id' => 5, 'name' => 'Shiori Mikami'],
+        ];
+        $users = [
+            ['talent_id' => 1, 'user_id' => 139557376],
+            ['talent_id' => 2, 'user_id' => 255386927],
+            ['talent_id' => 2, 'user_id' => 53669663],
+            ['talent_id' => 4, 'user_id' => 2445518118],
+            ['talent_id' => 5, 'user_id' => 199932799]
+        ];
+
+        $shouldBe = [
+            ['id' => 1, 'name' => 'Sumire Uesaka', 'user' => $users[0]],
+            ['id' => 2, 'name' => 'Mikako Komatsu', 'user' => $users[1]],
+            ['id' => 2, 'name' => 'Mikako Komatsu', 'user' => $users[2]],
+            ['id' => 3, 'name' => 'Rumi Okubo', 'user' => null],
+            ['id' => 4, 'name' => 'Natsumi Takamori', 'user' => $users[3]],
+            ['id' => 5, 'name' => 'Shiori Mikami', 'user' => $users[4]],
+        ];
+        $result = $factory($talents)
+            ->outerJoin(
+                $users,
+                function($talent) { return $talent['id']; },
+                function($user) { return $user['talent_id']; },
+                function($talent, $user) {
+                    $talent['user'] = $user;
+                    return $talent;
+                }
+            )->toList();
+        $this->assertEquals($shouldBe, $result);
+    }
+
+    /**
+     * @dataProvider provideCollectionFactory
+     */
     public function testGroupJoin($factory)
     {
         $users = [
             ['id' => 1, 'name' => 'Sumire Uesaka'],
             ['id' => 2, 'name' => 'Mikako Komatsu'],
-            ['id' => 3, 'name' => 'Rumi okubo'],
+            ['id' => 3, 'name' => 'Rumi Okubo'],
             ['id' => 4, 'name' => 'Natsumi Takamori'],
             ['id' => 5, 'name' => 'Shiori Mikami'],
         ];
@@ -327,7 +368,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'id' => 3,
-                'name' => 'Rumi okubo',
+                'name' => 'Rumi Okubo',
                 'tweets' => [$tweets[3], $tweets[4]]
             ],
             [

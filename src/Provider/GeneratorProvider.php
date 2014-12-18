@@ -103,6 +103,55 @@ class GeneratorProvider implements ICollectionProvider
     /**
      * {@inheritdoc}
      */
+    public function outerJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
+    {
+        return Iterators::createLazy(function() use (
+            $outer,
+            $inner,
+            $outerKeySelector,
+            $innerKeySelector,
+            $resultValueSelector
+        ) {
+            $lookupTable = [];
+            foreach ($inner as $innerKey => $innerValue) {
+                $joinKey = call_user_func(
+                    $innerKeySelector,
+                    $innerValue,
+                    $innerKey,
+                    $inner
+                );
+                $lookupTable[$joinKey][] = $innerValue;
+            }
+
+            foreach ($outer as $outerKey => $outerValue) {
+                $joinKey = call_user_func(
+                    $outerKeySelector,
+                    $outerValue,
+                    $outerKey,
+                    $outer
+                );
+                if (isset($lookupTable[$joinKey])) {
+                    foreach ($lookupTable[$joinKey] as $innerValue) {
+                        yield call_user_func(
+                            $resultValueSelector,
+                            $outerValue,
+                            $innerValue
+                        );
+                    }
+                } else {
+                    yield call_user_func(
+                        $resultValueSelector,
+                        $outerValue,
+                        null
+                    );
+                }
+            }
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function groupJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
     {
         return Iterators::createLazy(function() use (

@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Iterator;
 
-class JoinIterator implements \Iterator
+class OuterJoinIterator implements \Iterator
 {
     /**
      * The ourter iterator
@@ -153,7 +153,7 @@ class JoinIterator implements \Iterator
 
     private function fetchInners()
     {
-        while ($this->outer->valid()) {
+        if ($this->outer->valid()) {
             $this->outerValue = $this->outer->current();
             $this->outerKey = $this->outer->key();
 
@@ -170,10 +170,14 @@ class JoinIterator implements \Iterator
                     $this->outerValue,
                     reset($this->inners)
                 );
-                break;
+            } else {
+                $this->inners = [];
+                $this->resultValue = call_user_func(
+                    $this->resultValueSelector,
+                    $this->outerValue,
+                    null
+                );
             }
-
-            $this->outer->next();
         }
     }
 

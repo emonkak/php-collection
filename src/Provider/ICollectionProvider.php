@@ -41,6 +41,16 @@ interface ICollectionProvider
      * @param array|\Traversable $inner
      * @param mixed $outerKeySelector (outerValue, outerKey, outer) -> joinKey
      * @param mixed $innerKeySelector (innerValue, innerKey, outer) -> joinKey
+     * @param callable $resultValueSelector (outerValue, innerValue) -> resultValue
+     * @return array|\Iterator
+     */
+    public function outerJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector);
+
+    /**
+     * @param array|\Traversable $outer
+     * @param array|\Traversable $inner
+     * @param mixed $outerKeySelector (outerValue, outerKey, outer) -> joinKey
+     * @param mixed $innerKeySelector (innerValue, innerKey, outer) -> joinKey
      * @param callable $resultValueSelector (outerValue, innerValues[]) -> resultValue
      * @return array|\Iterator
      */

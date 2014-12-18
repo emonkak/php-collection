@@ -98,6 +98,50 @@ class ArrayProvider implements ICollectionProvider
     /**
      * {@inheritdoc}
      */
+    public function outerJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
+    {
+        $lookupTable = [];
+        foreach ($inner as $innerKey => $innerValue) {
+            $joinKey = call_user_func(
+                $innerKeySelector,
+                $innerValue,
+                $innerKey,
+                $inner
+            );
+            $lookupTable[$joinKey][] = $innerValue;
+        }
+
+        $results = [];
+        foreach ($outer as $outerKey => $outerValue) {
+            $joinKey = call_user_func(
+                $outerKeySelector,
+                $outerValue,
+                $outerKey,
+                $outer
+            );
+            if (isset($lookupTable[$joinKey])) {
+                foreach ($lookupTable[$joinKey] as $innerValue) {
+                    $results[] = call_user_func(
+                        $resultValueSelector,
+                        $outerValue,
+                        $innerValue
+                    );
+                }
+            } else {
+                $results[] = call_user_func(
+                    $resultValueSelector,
+                    $outerValue,
+                    null
+                );
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function groupJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
     {
         $lookupTable = [];

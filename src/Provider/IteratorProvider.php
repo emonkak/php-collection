@@ -13,6 +13,7 @@ use Emonkak\Collection\Iterator\IterateIterator;
 use Emonkak\Collection\Iterator\JoinIterator;
 use Emonkak\Collection\Iterator\MapIterator;
 use Emonkak\Collection\Iterator\MemoizeIterator;
+use Emonkak\Collection\Iterator\OuterJoinIterator;
 use Emonkak\Collection\Iterator\RangeIterator;
 use Emonkak\Collection\Iterator\RenumIterator;
 use Emonkak\Collection\Iterator\RepeatIterator;
@@ -62,6 +63,20 @@ class IteratorProvider implements ICollectionProvider
     public function join($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
     {
         return new JoinIterator(
+            Iterators::create($outer),
+            Iterators::create($inner),
+            $outerKeySelector,
+            $innerKeySelector,
+            $resultValueSelector
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function outerJoin($outer, $inner, callable $outerKeySelector, callable $innerKeySelector, callable $resultValueSelector)
+    {
+        return new OuterJoinIterator(
             Iterators::create($outer),
             Iterators::create($inner),
             $outerKeySelector,

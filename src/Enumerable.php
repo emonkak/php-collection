@@ -231,6 +231,21 @@ trait Enumerable
      * @param array|\Traversable $inner
      * @param mixed $outerKeySelector (outerValue, outerKey, outer) -> joinKey
      * @param mixed $innerKeySelector (innerValue, innerKey, outer) -> joinKey
+     * @param callable $resultValueSelector (outerValue, innerValue) -> resultValue
+     * @return Collection
+     */
+    public function outerJoin($inner, $outerKeySelector, $innerKeySelector, callable $resultValueSelector)
+    {
+        $outer = $this->getSource();
+        $outerKeySelector = $this->resolveSelector($outerKeySelector);
+        $innerKeySelector = $this->resolveSelector($innerKeySelector);
+        return $this->newCollection($this->getProvider()->outerJoin($outer, $inner, $outerKeySelector, $innerKeySelector, $resultValueSelector));
+    }
+
+    /**
+     * @param array|\Traversable $inner
+     * @param mixed $outerKeySelector (outerValue, outerKey, outer) -> joinKey
+     * @param mixed $innerKeySelector (innerValue, innerKey, outer) -> joinKey
      * @param callable $resultValueSelector (outerValue, innerValues[]) -> resultValue
      * @return Collection
      */
