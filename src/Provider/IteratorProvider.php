@@ -21,8 +21,8 @@ use Emonkak\Collection\Iterator\SampleIterator;
 use Emonkak\Collection\Iterator\TakeWhileIterator;
 use Emonkak\Collection\Iterator\UniqueIterator;
 use Emonkak\Collection\Iterator\ZipIterator;
-use Emonkak\Collection\Util\Iterators;
-use Emonkak\Collection\Util\Singleton;
+use Emonkak\Collection\Utils\Iterators;
+use Emonkak\Collection\Utils\Singleton;
 
 class IteratorProvider implements ICollectionProvider
 {

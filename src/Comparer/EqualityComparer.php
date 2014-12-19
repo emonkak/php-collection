@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Comparer;
 
-use Emonkak\Collection\Util\Singleton;
+use Emonkak\Collection\Utils\Singleton;
 
 class EqualityComparer implements IEqualityComparer
 {

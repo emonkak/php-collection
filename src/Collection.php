@@ -5,7 +5,7 @@ namespace Emonkak\Collection;
 use Emonkak\Collection\Provider\GeneratorProvider;
 use Emonkak\Collection\Provider\ICollectionProvider;
 use Emonkak\Collection\Provider\IteratorProvider;
-use Emonkak\Collection\Util\Iterators;
+use Emonkak\Collection\Utils\Iterators;
 
 class Collection implements \IteratorAggregate
 {

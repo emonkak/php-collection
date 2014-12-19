@@ -2,8 +2,9 @@
 
 namespace Emonkak\Collection\Predicate;
 
+use Emonkak\Collection\Selector\PropertySelectorParser;
 use Emonkak\Collection\Selector\ValueSelector;
-use Emonkak\Collection\Util\Singleton;
+use Emonkak\Collection\Utils\Singleton;
 
 class PredicateResolver implements IPredicateResolver
 {
@@ -19,10 +20,7 @@ class PredicateResolver implements IPredicateResolver
             return ValueSelector::getInstance();
         }
         if (is_string($src)) {
-            // key or property selector
-            return function($v) use ($src) {
-                return is_array($v) ? $v[$src] : $v->$src;
-            };
+            return PropertySelectorParser::parse($src);
         }
         if (is_callable($src)) {
             return $src;

@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Comparer;
 
-use Emonkak\Collection\Util\Singleton;
+use Emonkak\Collection\Utils\Singleton;
 
 class ComparerResolver implements IComparerResolver
 {
@@ -15,16 +15,7 @@ class ComparerResolver implements IComparerResolver
     public function resolveComparer($src)
     {
         if ($src === null) {
-            return function($v0, $v1) {
-                if (is_string($v0) && is_string($v1)) {
-                    return strcmp($v0, $v1);
-                }
-                if (is_numeric($v0) && is_numeric($v1)) {
-                    if ($v0 == $v1) return 0;
-                    return ($v0 < $v1) ? -1 : 1;
-                }
-                return 0;
-            };
+            return DefaultComparer::getInstance();
         }
         if (is_callable($src)) {
             return $src;

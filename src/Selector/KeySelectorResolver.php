@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Selector;
 
-use Emonkak\Collection\Util\Singleton;
+use Emonkak\Collection\Utils\Singleton;
 
 class KeySelectorResolver implements IKeySelectorResolver
 {
@@ -18,10 +18,7 @@ class KeySelectorResolver implements IKeySelectorResolver
             return KeySelector::getInstance();
         }
         if (is_string($src)) {
-            // key or property selector
-            return function($v) use ($src) {
-                return is_array($v) ? $v[$src] : $v->$src;
-            };
+            return PropertySelectorParser::parse($src);
         }
         if (is_callable($src)) {
             return $src;

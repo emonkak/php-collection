@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Iterator;
 
-use Emonkak\Collection\Util\Iterators;
+use Emonkak\Collection\Utils\Iterators;
 
 class LazyIterator implements \IteratorAggregate
 {

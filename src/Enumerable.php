@@ -7,7 +7,7 @@ use Emonkak\Collection\Iterator\ParallelIterator;
 use Emonkak\Collection\Predicate\PredicateResolver;
 use Emonkak\Collection\Selector\KeySelectorResolver;
 use Emonkak\Collection\Selector\SelectorResolver;
-use Emonkak\Collection\Util\Iterators;
+use Emonkak\Collection\Utils\Iterators;
 
 trait Enumerable
 {
@@ -119,10 +119,17 @@ trait Enumerable
 
     public function where($properties)
     {
-        return $this->filter(function($x) use ($properties) {
-            foreach ($properties as $key => $value) {
-                if (!((isset($x->$key) && $x->$key == $value)
-                      || (isset($x[$key]) && $x[$key] == $value))) {
+        $predicates = [];
+        foreach ($properties as $key => $value) {
+            $accessor = $this->resolveSelector($key);
+            $predicates[] = function($x) use ($accessor, $value) {
+                return call_user_func($accessor, $x) === $value;
+            };
+        }
+
+        return $this->filter(function($x) use ($predicates) {
+            foreach ($predicates as $predicate) {
+                if (!call_user_func($predicate, $x)) {
                     return false;
                 }
             }
@@ -132,10 +139,17 @@ trait Enumerable
 
     public function findWhere($properties)
     {
-        return $this->find(function($x) use ($properties) {
-            foreach ($properties as $key => $value) {
-                if (!((isset($x->$key) && $x->$key == $value)
-                      || (isset($x[$key]) && $x[$key] == $value))) {
+        $predicates = [];
+        foreach ($properties as $key => $value) {
+            $accessor = $this->resolveSelector($key);
+            $predicates[] = function($x) use ($accessor, $value) {
+                return call_user_func($accessor, $x) === $value;
+            };
+        }
+
+        return $this->find(function($x) use ($predicates) {
+            foreach ($predicates as $predicate) {
+                if (!call_user_func($predicate, $x)) {
                     return false;
                 }
             }
@@ -201,15 +215,10 @@ trait Enumerable
 
     public function pluck($property)
     {
-        return $this->map(function($x) use ($property) {
-            if (isset($x->$property)) {
-                return $x->$property;
-            } elseif (isset($x[$property])) {
-                return $x[$property];
-            } else {
-                return null;
-            }
-        });
+        $xs = $this->getSource();
+        $valueSelector = $this->resolveSelector($property);
+        $keySelector = $this->resolveKeySelector(null);
+        return $this->newCollection($this->getProvider()->map($xs, $valueSelector, $keySelector));
     }
 
     /**
@@ -399,7 +408,7 @@ trait Enumerable
                 }
             });
 
-            return $this->newCollection($result)->pluck('value');
+            return $this->newCollection($result)->pluck('[value]');
         });
     }
 

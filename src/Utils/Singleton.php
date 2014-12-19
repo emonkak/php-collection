@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Collection\Util;
+namespace Emonkak\Collection\Utils;
 
 trait Singleton
 {

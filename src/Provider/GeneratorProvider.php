@@ -4,8 +4,8 @@ namespace Emonkak\Collection\Provider;
 
 use Emonkak\Collection\Comparer\EqualityComparer;
 use Emonkak\Collection\Set;
-use Emonkak\Collection\Util\Iterators;
-use Emonkak\Collection\Util\Singleton;
+use Emonkak\Collection\Utils\Iterators;
+use Emonkak\Collection\Utils\Singleton;
 
 class GeneratorProvider implements ICollectionProvider
 {

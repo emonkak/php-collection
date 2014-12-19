@@ -251,6 +251,9 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 
         $evens = $factory([1, 2, 3, 4, 5, 6])->select(function($num) { return $num % 2 == 0; })->toList();
         $this->assertSame([2, 4, 6], $evens, 'aliased as "select"');
+
+        $items = $factory([['ok' => true, 'val' => 1], ['ok' => false, 'val' => 2], ['ok' => true, 'val' => 3]])->filter('[ok]')->toList();
+        $this->assertSame([['ok' => true, 'val' => 1], ['ok' => true, 'val' => 3]], $items);
     }
 
     /**
@@ -406,11 +409,11 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ['a' => 1, 'b' => 3],
             ['a' => 1, 'b' => 4]
         ];
-        $result = $factory($list)->where(['a' => 1])->toList();
+        $result = $factory($list)->where(['[a]' => 1])->toList();
         $this->assertCount(3, $result);
         $this->assertSame([['a' => 1, 'b' => 2], ['a' => 1, 'b' => 3], ['a' => 1, 'b' => 4]], $result);
 
-        $result = $factory($list)->where(['b' => 2])->toList();
+        $result = $factory($list)->where(['[b]' => 2])->toList();
         $this->assertCount(2, $result);
         $this->assertSame([['a' => 1, 'b' => 2], ['a' => 2, 'b' => 2]], $result);
     }
@@ -428,11 +431,11 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ['a' => 2, 'b' => 4]
         ];
 
-        $result = $factory($list)->findWhere(['a' => 1]);
+        $result = $factory($list)->findWhere(['[a]' => 1]);
         $this->assertSame($list[0], $result);
-        $result = $factory($list)->findWhere(['b' => 4]);
+        $result = $factory($list)->findWhere(['[b]' => 4]);
         $this->assertSame($list[3], $result);
-        $result = $factory($list)->findWhere(['c' => 0]);
+        $result = $factory($list)->findWhere(['[c]' => 0]);
         $this->assertNull($result);
     }
 
@@ -507,7 +510,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ['name' => 'moe', 'age' => 30],
             ['name' => 'curly', 'age' => 50]
         ];
-        $result = $factory($people)->pluck('name')->toArray();
+        $result = $factory($people)->pluck('[name]')->toArray();
         $this->assertSame(['moe', 'curly'], $result, 'pulls names out of arrays');
 
         $people = [
@@ -630,7 +633,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ['name' => 'moe', 'age' => 30]
         ];
         $people = $factory($people)->sortBy(function($person) { return $person['age']; })->toArray();
-        $result = $factory($people)->pluck('name')->toArray();
+        $result = $factory($people)->pluck('[name]')->toArray();
         $this->assertSame(['moe', 'curly'], $result, 'stooges sorted by age');
 
         $list = [null, 4, 1, null, 3, 2];
@@ -703,8 +706,8 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ['key' => 'bar', 'value' => 5],
         ];
         $grouped = $factory($dict)
-            ->groupBy('key')
-            ->map(function($xs) use ($factory) { return $factory($xs)->pluck('value'); })
+            ->groupBy('[key]')
+            ->map(function($xs) use ($factory) { return $factory($xs)->pluck('[value]'); })
             ->toArrayRec();
         $this->assertEquals(['foo' => [1, 2, 3], 'bar' => [4, 5]], $grouped);
     }
@@ -739,7 +742,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             5 => ['string' => 'eight', 'length' => 5]
         ];
         $grouped = $factory($list)
-            ->indexBy('length')
+            ->indexBy('[length]')
             ->toArray();
         $this->assertEquals($shouldBe, $grouped);
 
@@ -1314,7 +1317,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         ];
         $iterator = function($obj) { return $obj['x']; };
         $this->assertSame(2, $factory($objects)->sortedIndex(['x' => 25], $iterator));
-        $this->assertSame(3, $factory($objects)->sortedIndex(['x' => 35], 'x'));
+        $this->assertSame(3, $factory($objects)->sortedIndex(['x' => 35], '[x]'));
 
         $context = [1 => 2, 2 => 3, 3 => 4];
         $iterator = function($i) use ($context) { return $context[$i]; };

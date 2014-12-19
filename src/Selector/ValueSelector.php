@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Selector;
 
-use Emonkak\Collection\Util\Singleton;
+use Emonkak\Collection\Utils\Singleton;
 
 /**
  * Represents the Identity function.
