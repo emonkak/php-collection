@@ -4,6 +4,7 @@ namespace Emonkak\Collection\Provider;
 
 use Emonkak\Collection\Comparer\EqualityComparer;
 use Emonkak\Collection\Iterator\ConcatMapIterator;
+use Emonkak\Collection\Iterator\CycleIterator;
 use Emonkak\Collection\Iterator\DropWhileIterator;
 use Emonkak\Collection\Iterator\FlattenIterator;
 use Emonkak\Collection\Iterator\GroupJoinIterator;
@@ -45,8 +46,8 @@ class IteratorProvider implements ICollectionProvider
      */
     public function concatMap($xs, callable $selector)
     {
-        $inner = new ConcatMapIterator(Iterators::create($xs), $selector);
-        return new \RecursiveIteratorIterator($inner);
+        $it = new ConcatMapIterator(Iterators::create($xs), $selector);
+        return new \RecursiveIteratorIterator($it);
     }
 
     /**
@@ -186,8 +187,8 @@ class IteratorProvider implements ICollectionProvider
      */
     public function flatten($xs, $shallow)
     {
-        $inner = new FlattenIterator(Iterators::create($xs), $shallow);
-        return new \RecursiveIteratorIterator($inner);
+        $it = new FlattenIterator(Iterators::create($xs), $shallow);
+        return new \RecursiveIteratorIterator($it);
     }
 
     /**
@@ -243,16 +244,11 @@ class IteratorProvider implements ICollectionProvider
      */
     public function cycle($xs, $n)
     {
-        $inner = Iterators::create($xs);
-        if ($n === null) {
-            return new \InfiniteIterator($inner);
+        $it = Iterators::create($xs);
+        if ($n !== null) {
+            return new CycleIterator($it, $n);
         } else {
-            // TODO: Implement CycleIterator
-            $it = new \AppendIterator();
-            while ($n-- > 0) {
-                $it->append($inner);
-            }
-            return $it;
+            return new \InfiniteIterator($it);
         }
     }
 
@@ -269,10 +265,10 @@ class IteratorProvider implements ICollectionProvider
      */
     public function repeat($value, $n)
     {
-        if ($n === null) {
-            return new \InfiniteIterator(new \ArrayIterator([$value]));
-        } else {
+        if ($n !== null) {
             return new RepeatIterator($value, $n);
+        } else {
+            return new \InfiniteIterator(new \ArrayIterator([$value]));
         }
     }
 
