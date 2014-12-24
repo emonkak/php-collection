@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Comparer;
 
-class DelegateEqualityComparer implements IEqualityComparer
+class DelegateEqualityComparer implements EqualityComparerInterface
 {
     private $equalsFn;
 

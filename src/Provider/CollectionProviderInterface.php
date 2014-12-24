@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Provider;
 
-interface ICollectionProvider
+interface CollectionProviderInterface
 {
     /**
      * @param array|\Traversable $xs

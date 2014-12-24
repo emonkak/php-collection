@@ -4,7 +4,7 @@ namespace Emonkak\Collection\Comparer;
 
 use Emonkak\Collection\Utils\Singleton;
 
-class ComparerResolver implements IComparerResolver
+class ComparerResolver implements ComparerResolverInterface
 {
     use Singleton;
 

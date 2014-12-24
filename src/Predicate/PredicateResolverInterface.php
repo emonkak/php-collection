@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Predicate;
 
-interface IPredicateResolver
+interface PredicateResolverInterface
 {
     public function resolvePredicate($src);
 }

@@ -7,7 +7,7 @@ use Emonkak\Collection\Set;
 use Emonkak\Collection\Utils\Iterators;
 use Emonkak\Collection\Utils\Singleton;
 
-class GeneratorProvider implements ICollectionProvider
+class GeneratorProvider implements CollectionProviderInterface
 {
     use Singleton;
 

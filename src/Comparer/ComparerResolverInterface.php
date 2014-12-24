@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Comparer;
 
-interface IComparerResolver
+interface ComparerResolverInterface
 {
     public function resolveComparer($src);
 }

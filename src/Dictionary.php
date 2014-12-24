@@ -3,7 +3,7 @@
 namespace Emonkak\Collection;
 
 use Emonkak\Collection\Comparer\EqualityComparer;
-use Emonkak\Collection\Comparer\IEqualityComparer;
+use Emonkak\Collection\Comparer\EqualityComparerInterface;
 use Emonkak\Collection\Iterator\DictionaryIterator;
 
 class Dictionary implements \ArrayAccess, \Countable, \IteratorAggregate
@@ -22,7 +22,7 @@ class Dictionary implements \ArrayAccess, \Countable, \IteratorAggregate
     private $size = 0;
 
     /**
-     * @var IEqualityComparer
+     * @var EqualityComparerInterface
      */
     private $eqComparer;
 
@@ -32,9 +32,9 @@ class Dictionary implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @param IEqualityComparer $eqComparer
+     * @param EqualityComparerInterface $eqComparer
      */
-    public function __construct(IEqualityComparer $eqComparer)
+    public function __construct(EqualityComparerInterface $eqComparer)
     {
         $this->eqComparer = $eqComparer;
     }

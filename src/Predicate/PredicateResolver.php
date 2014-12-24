@@ -6,7 +6,7 @@ use Emonkak\Collection\Selector\PropertySelectorParser;
 use Emonkak\Collection\Selector\ValueSelector;
 use Emonkak\Collection\Utils\Singleton;
 
-class PredicateResolver implements IPredicateResolver
+class PredicateResolver implements PredicateResolverInterface
 {
     use Singleton;
 

@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Selector;
 
-interface ISelectorResolver
+interface SelectorResolverInterface
 {
     public function resolveSelector($src);
 }

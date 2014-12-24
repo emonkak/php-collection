@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Comparer;
 
-interface IEqualityComparer
+interface EqualityComparerInterface
 {
     public function equals($v0, $v1);
 

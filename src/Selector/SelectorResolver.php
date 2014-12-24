@@ -4,7 +4,7 @@ namespace Emonkak\Collection\Selector;
 
 use Emonkak\Collection\Utils\Singleton;
 
-class SelectorResolver implements ISelectorResolver
+class SelectorResolver implements SelectorResolverInterface
 {
     use Singleton;
 

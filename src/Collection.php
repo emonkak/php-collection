@@ -2,8 +2,8 @@
 
 namespace Emonkak\Collection;
 
+use Emonkak\Collection\Provider\CollectionProviderInterface;
 use Emonkak\Collection\Provider\GeneratorProvider;
-use Emonkak\Collection\Provider\ICollectionProvider;
 use Emonkak\Collection\Provider\IteratorProvider;
 use Emonkak\Collection\Utils\Iterators;
 
@@ -56,7 +56,7 @@ class Collection implements \IteratorAggregate
         );
     }
 
-    public static function setDefaultProvider(ICollectionProvider $provider)
+    public static function setDefaultProvider(CollectionProviderInterface $provider)
     {
         self::$defaultProvider = $provider;
     }
@@ -66,7 +66,7 @@ class Collection implements \IteratorAggregate
         return self::$defaultProvider;
     }
 
-    public function __construct($source, ICollectionProvider $provider)
+    public function __construct($source, CollectionProviderInterface $provider)
     {
         $this->source = $source;
         $this->provider = $provider;

@@ -25,7 +25,7 @@ use Emonkak\Collection\Iterator\ZipIterator;
 use Emonkak\Collection\Utils\Iterators;
 use Emonkak\Collection\Utils\Singleton;
 
-class IteratorProvider implements ICollectionProvider
+class IteratorProvider implements CollectionProviderInterface
 {
     use Singleton;
 

@@ -2,7 +2,7 @@
 
 namespace Emonkak\Collection\Selector;
 
-interface IKeySelectorResolver
+interface KeySelectorResolverInterface
 {
     public function resolveKeySelector($src);
 }

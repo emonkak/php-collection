@@ -4,7 +4,7 @@ namespace Emonkak\Collection\Comparer;
 
 use Emonkak\Collection\Utils\Singleton;
 
-class EqualityComparer implements IEqualityComparer
+class EqualityComparer implements EqualityComparerInterface
 {
     use Singleton;
 
