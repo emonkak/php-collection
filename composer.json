@@ -21,7 +21,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Emonkak\\Collection\\": "src/",
+            "Emonkak\\Collection\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Emonkak\\Collection\\Benchmarks\\": "benchmarks/",
             "Emonkak\\Collection\\Tests\\": "tests/"
         }
