@@ -22,8 +22,8 @@ class GeneratorProvider implements CollectionProviderInterface
     {
         return Iterators::createLazy(function() use ($xs, $valueSelector, $keySelector) {
             foreach ($xs as $k => $x) {
-                $key = call_user_func($keySelector, $x, $k, $xs);
-                yield $key => call_user_func($valueSelector, $x, $k, $xs);
+                $key = $keySelector($x, $k, $xs);
+                yield $key => $valueSelector($x, $k, $xs);
             }
         });
     }
@@ -35,7 +35,7 @@ class GeneratorProvider implements CollectionProviderInterface
     {
         return Iterators::createLazy(function() use ($xs, $selector) {
             foreach ($xs as $k1 => $x1) {
-                foreach (call_user_func($selector, $x1, $k1, $xs) as $x2) {
+                foreach ($selector($x1, $k1, $xs) as $x2) {
                     yield $k1 => $x2;
                 }
             }
@@ -49,7 +49,7 @@ class GeneratorProvider implements CollectionProviderInterface
     {
         return Iterators::createLazy(function() use ($xs, $predicate) {
             foreach ($xs as $k => $x) {
-                if (call_user_func($predicate, $x, $k, $xs)) {
+                if ($predicate($x, $k, $xs)) {
                     yield $k => $x;
                 }
             }
@@ -70,31 +70,17 @@ class GeneratorProvider implements CollectionProviderInterface
         ) {
             $lookupTable = [];
             foreach ($inner as $innerKey => $innerValue) {
-                $joinKey = call_user_func(
-                    $innerKeySelector,
-                    $innerValue,
-                    $innerKey,
-                    $inner
-                );
+                $joinKey = $innerKeySelector($innerValue, $innerKey, $inner);
                 $lookupTable[$joinKey][] = $innerValue;
             }
 
             foreach ($outer as $outerKey => $outerValue) {
-                $joinKey = call_user_func(
-                    $outerKeySelector,
-                    $outerValue,
-                    $outerKey,
-                    $outer
-                );
+                $joinKey = $outerKeySelector($outerValue, $outerKey, $outer);
                 if (!isset($lookupTable[$joinKey])) {
                     continue;
                 }
                 foreach ($lookupTable[$joinKey] as $innerValue) {
-                    yield call_user_func(
-                        $resultValueSelector,
-                        $outerValue,
-                        $innerValue
-                    );
+                    yield $resultValueSelector($outerValue, $innerValue);
                 }
             }
         });
@@ -114,36 +100,18 @@ class GeneratorProvider implements CollectionProviderInterface
         ) {
             $lookupTable = [];
             foreach ($inner as $innerKey => $innerValue) {
-                $joinKey = call_user_func(
-                    $innerKeySelector,
-                    $innerValue,
-                    $innerKey,
-                    $inner
-                );
+                $joinKey = $innerKeySelector($innerValue, $innerKey, $inner);
                 $lookupTable[$joinKey][] = $innerValue;
             }
 
             foreach ($outer as $outerKey => $outerValue) {
-                $joinKey = call_user_func(
-                    $outerKeySelector,
-                    $outerValue,
-                    $outerKey,
-                    $outer
-                );
+                $joinKey = $outerKeySelector($outerValue, $outerKey, $outer);
                 if (isset($lookupTable[$joinKey])) {
                     foreach ($lookupTable[$joinKey] as $innerValue) {
-                        yield call_user_func(
-                            $resultValueSelector,
-                            $outerValue,
-                            $innerValue
-                        );
+                        yield $resultValueSelector($outerValue, $innerValue);
                     }
                 } else {
-                    yield call_user_func(
-                        $resultValueSelector,
-                        $outerValue,
-                        null
-                    );
+                    yield $resultValueSelector($outerValue, null);
                 }
             }
         });
@@ -163,28 +131,14 @@ class GeneratorProvider implements CollectionProviderInterface
         ) {
             $lookupTable = [];
             foreach ($inner as $innerKey => $innerValue) {
-                $joinKey = call_user_func(
-                    $innerKeySelector,
-                    $innerValue,
-                    $innerKey,
-                    $inner
-                );
+                $joinKey = $innerKeySelector($innerValue, $innerKey, $inner);
                 $lookupTable[$joinKey][] = $innerValue;
             }
 
             foreach ($outer as $outerKey => $outerValue) {
-                $joinKey = call_user_func(
-                    $outerKeySelector,
-                    $outerValue,
-                    $outerKey,
-                    $outer
-                );
+                $joinKey = $outerKeySelector($outerValue, $outerKey, $outer);
                 $inners = isset($lookupTable[$joinKey]) ? $lookupTable[$joinKey] : [];
-                yield call_user_func(
-                    $resultValueSelector,
-                    $outerValue,
-                    $inners
-                );
+                yield $resultValueSelector($outerValue, $inners);
             }
         });
     }
@@ -292,7 +246,7 @@ class GeneratorProvider implements CollectionProviderInterface
     {
         return Iterators::createLazy(function() use ($xs, $predicate) {
             foreach ($xs as $k => $x) {
-                if (!call_user_func($predicate, $x, $k, $xs)) {
+                if (!$predicate($x, $k, $xs)) {
                     break;
                 }
                 yield $k => $x;
@@ -308,7 +262,7 @@ class GeneratorProvider implements CollectionProviderInterface
         return Iterators::createLazy(function() use ($xs, $predicate) {
             $accepted = false;
             foreach ($xs as $k => $x) {
-                if ($accepted || ($accepted = !call_user_func($predicate, $x, $k, $xs))) {
+                if ($accepted || ($accepted = !$predicate($x, $k, $xs))) {
                     yield $k => $x;
                 }
             }
@@ -368,7 +322,7 @@ class GeneratorProvider implements CollectionProviderInterface
             $set = new Set(EqualityComparer::getInstance());
 
             foreach ($xs as $k => $x) {
-                if ($set->add(call_user_func($selector, $x, $k, $xs))) {
+                if ($set->add($selector($x, $k, $xs))) {
                     yield $k => $x;
                 }
             }
@@ -493,7 +447,7 @@ class GeneratorProvider implements CollectionProviderInterface
             $acc = $initial;
             while (true) {
                 yield $acc;
-                $acc = call_user_func($f, $acc);
+                $acc = $f($acc);
             }
         });
     }

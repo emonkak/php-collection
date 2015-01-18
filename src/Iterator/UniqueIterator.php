@@ -52,14 +52,10 @@ class UniqueIterator implements \Iterator
     private function fetch()
     {
         while ($this->it->valid()) {
+            $selctor = $this->selector;
             $this->key = $this->it->key();
             $this->current = $this->it->current();
-            if ($this->set->add(call_user_func(
-                $this->selector,
-                $this->current,
-                $this->key,
-                $this->it
-            ))) {
+            if ($this->set->add($selctor($this->current, $this->key, $this->it))) {
                 break;
             } else {
                 $this->it->next();

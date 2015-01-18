@@ -13,7 +13,7 @@ class PropertySelectorParserTest extends \PHPUnit_Framework_TestCase
     {
         $accessor = PropertySelectorParser::parse($expr);
         $this->assertInternalType('callable', $accessor);
-        $this->assertSame($expectedResult, call_user_func($accessor, $value));
+        $this->assertSame($expectedResult, $accessor($value));
     }
 
     public function provideParse()

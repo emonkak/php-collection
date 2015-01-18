@@ -15,6 +15,7 @@ class LazyIterator implements \IteratorAggregate
 
     public function getIterator()
     {
-        return Iterators::create(call_user_func($this->factory));
+        $factory = $this->factory;
+        return Iterators::create($factory());
     }
 }

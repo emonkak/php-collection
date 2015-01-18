@@ -143,33 +143,23 @@ class JoinIterator implements \Iterator
     private function fetchResultValue()
     {
         if ($this->outer->valid()) {
-            $this->resultValue = call_user_func(
-                $this->resultValueSelector,
-                $this->outerValue,
-                current($this->inners)
-            );
+            $resultValueSelector = $this->resultValueSelector;
+            $this->resultValue = $resultValueSelector($this->outerValue, current($this->inners));
         }
     }
 
     private function fetchInners()
     {
+        $outerKeySelector = $this->outerKeySelector;
         while ($this->outer->valid()) {
             $this->outerValue = $this->outer->current();
             $this->outerKey = $this->outer->key();
 
-            $joinKey = call_user_func(
-                $this->outerKeySelector,
-                $this->outerValue,
-                $this->outerKey,
-                $this->outer
-            );
+            $joinKey = $outerKeySelector($this->outerValue, $this->outerKey, $this->outer);
             if (isset($this->lookupTable[$joinKey])) {
+                $resultValueSelector = $this->resultValueSelector;
                 $this->inners = $this->lookupTable[$joinKey];
-                $this->resultValue = call_user_func(
-                    $this->resultValueSelector,
-                    $this->outerValue,
-                    reset($this->inners)
-                );
+                $this->resultValue = $resultValueSelector($this->outerValue, reset($this->inners));
                 break;
             }
 
@@ -180,13 +170,9 @@ class JoinIterator implements \Iterator
     private function buildLookupTable()
     {
         $this->lookupTable = [];
+        $innerKeySelector = $this->innerKeySelector;
         foreach ($this->inner as $innerKey => $innerValue) {
-            $joinKey = call_user_func(
-                $this->innerKeySelector,
-                $innerValue,
-                $innerKey,
-                $this->inner
-            );
+            $joinKey = $innerKeySelector($innerValue, $innerKey, $this->inner);
             $this->lookupTable[$joinKey][] = $innerValue;
         }
     }

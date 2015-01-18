@@ -22,8 +22,8 @@ class ArrayProvider implements CollectionProviderInterface
     {
         $result = [];
         foreach ($xs as $k => $x) {
-            $key = call_user_func($keySelector, $x, $k, $xs);
-            $result[$key] = call_user_func($valueSelector, $x, $k, $xs);
+            $key = $keySelector($x, $k, $xs);
+            $result[$key] = $valueSelector($x, $k, $xs);
         }
         return $result;
     }
@@ -35,7 +35,7 @@ class ArrayProvider implements CollectionProviderInterface
     {
         $result = [];
         foreach ($xs as $k => $x) {
-            foreach (call_user_func($selector, $x, $k, $xs) as $y) {
+            foreach ($selector($x, $k, $xs) as $y) {
                 $result[] = $y;
             }
         }
@@ -49,7 +49,7 @@ class ArrayProvider implements CollectionProviderInterface
     {
         $result = [];
         foreach ($xs as $k => $x) {
-            if (call_user_func($predicate, $x, $k, $xs)) {
+            if ($predicate($x, $k, $xs)) {
                 $result[$k] = $x;
             }
         }
@@ -63,32 +63,18 @@ class ArrayProvider implements CollectionProviderInterface
     {
         $lookupTable = [];
         foreach ($inner as $innerKey => $innerValue) {
-            $joinKey = call_user_func(
-                $innerKeySelector,
-                $innerValue,
-                $innerKey,
-                $inner
-            );
+            $joinKey = $innerKeySelector($innerValue, $innerKey, $inner);
             $lookupTable[$joinKey][] = $innerValue;
         }
 
         $results = [];
         foreach ($outer as $outerKey => $outerValue) {
-            $joinKey = call_user_func(
-                $outerKeySelector,
-                $outerValue,
-                $outerKey,
-                $outer
-            );
+            $joinKey = $outerKeySelector($outerValue, $outerKey, $outer);
             if (!isset($lookupTable[$joinKey])) {
                 continue;
             }
             foreach ($lookupTable[$joinKey] as $innerValue) {
-                $results[] = call_user_func(
-                    $resultValueSelector,
-                    $outerValue,
-                    $innerValue
-                );
+                $results[] = $resultValueSelector($outerValue, $innerValue);
             }
         }
 
@@ -102,37 +88,19 @@ class ArrayProvider implements CollectionProviderInterface
     {
         $lookupTable = [];
         foreach ($inner as $innerKey => $innerValue) {
-            $joinKey = call_user_func(
-                $innerKeySelector,
-                $innerValue,
-                $innerKey,
-                $inner
-            );
+            $joinKey = $innerKeySelector($innerValue, $innerKey, $inner);
             $lookupTable[$joinKey][] = $innerValue;
         }
 
         $results = [];
         foreach ($outer as $outerKey => $outerValue) {
-            $joinKey = call_user_func(
-                $outerKeySelector,
-                $outerValue,
-                $outerKey,
-                $outer
-            );
+            $joinKey = $outerKeySelector($outerValue, $outerKey, $outer);
             if (isset($lookupTable[$joinKey])) {
                 foreach ($lookupTable[$joinKey] as $innerValue) {
-                    $results[] = call_user_func(
-                        $resultValueSelector,
-                        $outerValue,
-                        $innerValue
-                    );
+                    $results[] = $resultValueSelector($outerValue, $innerValue);
                 }
             } else {
-                $results[] = call_user_func(
-                    $resultValueSelector,
-                    $outerValue,
-                    null
-                );
+                $results[] = $resultValueSelector($outerValue, null);
             }
         }
 
@@ -146,29 +114,15 @@ class ArrayProvider implements CollectionProviderInterface
     {
         $lookupTable = [];
         foreach ($inner as $innerKey => $innerValue) {
-            $joinKey = call_user_func(
-                $innerKeySelector,
-                $innerValue,
-                $innerKey,
-                $inner
-            );
+            $joinKey = $innerKeySelector($innerValue, $innerKey, $inner);
             $lookupTable[$joinKey][] = $innerValue;
         }
 
         $results = [];
         foreach ($outer as $outerKey => $outerValue) {
-            $joinKey = call_user_func(
-                $outerKeySelector,
-                $outerValue,
-                $outerKey,
-                $outer
-            );
+            $joinKey = $outerKeySelector($outerValue, $outerKey, $outer);
             $inners = isset($lookupTable[$joinKey]) ? $lookupTable[$joinKey] : [];
-            $results[] = call_user_func(
-                $resultValueSelector,
-                $outerValue,
-                $inners
-            );
+            $results[] = $resultValueSelector($outerValue, $inners);
         }
 
         return $results;
@@ -242,7 +196,7 @@ class ArrayProvider implements CollectionProviderInterface
     {
         $result = [];
         foreach ($xs as $k => $x) {
-            if (!call_user_func($predicate, $x, $k, $xs)) {
+            if (!$predicate($x, $k, $xs)) {
                 break;
             }
             $result[] = $x;
@@ -258,7 +212,7 @@ class ArrayProvider implements CollectionProviderInterface
         $result = [];
         $accepted = false;
         foreach ($xs as $k => $x) {
-            if ($accepted || ($accepted = !call_user_func($predicate, $x, $k, $xs))) {
+            if ($accepted || ($accepted = !$predicate($x, $k, $xs))) {
                 $result[] = $x;
             }
         }
@@ -313,7 +267,7 @@ class ArrayProvider implements CollectionProviderInterface
         $set = new Set(EqualityComparer::getInstance());
         $result = [];
         foreach ($xs as $k => $x) {
-            if ($set->add(call_user_func($selector, $x, $k, $xs))) {
+            if ($set->add($selector($x, $k, $xs))) {
                 $result[$k] = $x;
             }
         }

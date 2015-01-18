@@ -47,20 +47,12 @@ class MapIterator implements \Iterator
     private function fetch()
     {
         if ($this->it->valid()) {
+            $keySelector = $this->keySelector;
+            $valueSelector = $this->valueSelector;
             $current = $this->it->current();
             $key = $this->it->key();
-            $this->key = call_user_func(
-                $this->keySelector,
-                $current,
-                $key,
-                $this->it
-            );
-            $this->current = call_user_func(
-                $this->valueSelector,
-                $current,
-                $key,
-                $this->it
-            );
+            $this->key = $keySelector($current, $key, $this->it);
+            $this->current = $valueSelector($current, $key, $this->it);
         }
     }
 }

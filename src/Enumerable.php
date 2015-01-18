@@ -45,7 +45,7 @@ trait Enumerable
     {
         $xs = $this->getSource();
         foreach ($xs as $k => $x) {
-            call_user_func($f, $x, $k, $xs);
+            $f($x, $k, $xs);
         }
     }
 
@@ -90,7 +90,7 @@ trait Enumerable
     {
         $xs = $this->getSource();
         foreach ($xs as $k => $x) {
-            $acc = call_user_func($f, $acc, $x, $k, $xs);
+            $acc = $f($acc, $x, $k, $xs);
         }
         return $acc;
     }
@@ -104,7 +104,7 @@ trait Enumerable
     {
         $xs = $this->getSource();
         foreach ($xs as $k => $x) {
-            if (call_user_func($f, $x, $k, $xs)) {
+            if ($f($x, $k, $xs)) {
                 return $x;
             }
         }
@@ -123,13 +123,13 @@ trait Enumerable
         foreach ($properties as $key => $value) {
             $accessor = $this->resolveSelector($key);
             $predicates[] = function($x) use ($accessor, $value) {
-                return call_user_func($accessor, $x) === $value;
+                return $accessor($x) === $value;
             };
         }
 
         return $this->filter(function($x) use ($predicates) {
             foreach ($predicates as $predicate) {
-                if (!call_user_func($predicate, $x)) {
+                if (!$predicate($x)) {
                     return false;
                 }
             }
@@ -143,13 +143,13 @@ trait Enumerable
         foreach ($properties as $key => $value) {
             $accessor = $this->resolveSelector($key);
             $predicates[] = function($x) use ($accessor, $value) {
-                return call_user_func($accessor, $x) === $value;
+                return $accessor($x) === $value;
             };
         }
 
         return $this->find(function($x) use ($predicates) {
             foreach ($predicates as $predicate) {
-                if (!call_user_func($predicate, $x)) {
+                if (!$predicate($x)) {
                     return false;
                 }
             }
@@ -162,7 +162,7 @@ trait Enumerable
         $xs = $this->getSource();
         $predicate = $this->resolvePredicate($predicate);
         $predicate = function($x, $k, $xs) use ($predicate) {
-            return !call_user_func($predicate, $x, $k, $xs);
+            return !$predicate($x, $k, $xs);
         };
         return $this->newCollection($this->getProvider()->filter($xs, $predicate));
     }
@@ -173,7 +173,7 @@ trait Enumerable
         $predicate = $this->resolvePredicate($predicate);
 
         foreach ($xs as $k => $x) {
-            if (!call_user_func($predicate, $x, $k, $xs)) {
+            if (!$predicate($x, $k, $xs)) {
                 return false;
             }
         }
@@ -187,7 +187,7 @@ trait Enumerable
         $predicate = $this->resolvePredicate($predicate);
 
         foreach ($xs as $k => $x) {
-            if (call_user_func($predicate, $x, $k, $xs)) {
+            if ($predicate($x, $k, $xs)) {
                 return true;
             }
         }
@@ -274,7 +274,7 @@ trait Enumerable
         $result = -INF;
 
         foreach ($xs as $k => $x) {
-            $current = call_user_func($selector, $x, $k, $xs);
+            $current = $selector($x, $k, $xs);
             if ($current > $computed) {
                 $computed = $current;
                 $result = $x;
@@ -298,7 +298,7 @@ trait Enumerable
         $it->next();
         while ($it->valid()) {
             $current = $it->current();
-            if (call_user_func($comparer, $current, $result) > 0) {
+            if ($comparer($current, $result) > 0) {
                 $result = $current;
             }
             $it->next();
@@ -315,7 +315,7 @@ trait Enumerable
         $result = INF;
 
         foreach ($xs as $k => $x) {
-            $current = call_user_func($selector, $x, $k, $xs);
+            $current = $selector($x, $k, $xs);
             if ($current < $computed) {
                 $computed = $current;
                 $result = $x;
@@ -339,7 +339,7 @@ trait Enumerable
         $it->next();
         while ($it->valid()) {
             $current = $it->current();
-            if (call_user_func($comparer, $current, $result) < 0) {
+            if ($comparer($current, $result) < 0) {
                 $result = $current;
             }
             $it->next();
@@ -354,7 +354,7 @@ trait Enumerable
         $selector = $this->resolveSelector($selector);
         $acc = 0;
         foreach ($xs as $k => $x) {
-            $acc += call_user_func($selector, $x, $k, $xs);
+            $acc += $selector($x, $k, $xs);
         }
         return $acc;
     }
@@ -365,7 +365,7 @@ trait Enumerable
         $selector = $this->resolveSelector($selector);
         $acc = 1;
         foreach ($xs as $k => $x) {
-            $acc *= call_user_func($selector, $x, $k, $xs);
+            $acc *= $selector($x, $k, $xs);
         }
         return $acc;
     }
@@ -377,7 +377,7 @@ trait Enumerable
         $total = 0.0;
         $n = 0;
         foreach ($xs as $k => $x) {
-            $total += call_user_func($selector, $x, $k, $xs);
+            $total += $selector($x, $k, $xs);
             $n++;
         }
         return $n > 0 ? $total / $n : INF;
@@ -394,7 +394,7 @@ trait Enumerable
                 $result[] = [
                     'value' => $x,
                     'key' => $k,
-                    'criteria' => call_user_func($selector, $x, $k, $xs),
+                    'criteria' => $selector($x, $k, $xs),
                 ];
             }
 
@@ -420,7 +420,7 @@ trait Enumerable
             $result = [];
 
             foreach ($xs as $k => $x) {
-                $key = call_user_func($selector, $x, $k, $xs);
+                $key = $selector($x, $k, $xs);
                 $result[$key][] = $x;
             }
 
@@ -444,7 +444,7 @@ trait Enumerable
             $result = [];
 
             foreach ($xs as $k => $x) {
-                $key = call_user_func($selector, $x, $k, $xs);
+                $key = $selector($x, $k, $xs);
                 if (isset($result[$key])) {
                     $result[$key]++;
                 } else {
@@ -730,14 +730,14 @@ trait Enumerable
     {
         $xs = Iterators::toArray($this->getSource());
         $selector = $this->resolveSelector($selector);
-        $value = call_user_func($selector, $value, null, []);
+        $value = $selector($value, null, []);
 
         $low = 0;
         $high = count($xs);
 
         while ($low < $high) {
             $mid = ($low + $high) >> 1;
-            if (call_user_func($selector, $xs[$mid], $mid, $xs) < $value) {
+            if ($selector($xs[$mid], $mid, $xs) < $value) {
                 $low = $mid + 1;
             } else {
                 $high = $mid;

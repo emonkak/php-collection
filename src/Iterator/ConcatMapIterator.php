@@ -63,14 +63,10 @@ class ConcatMapIterator implements \RecursiveIterator
     private function fetch()
     {
         if ($this->it->valid()) {
+            $selector = $this->selector;
             $this->key = $this->it->key();
             $this->current = $this->it->current();
-            $this->children = call_user_func(
-                $this->selector,
-                $this->current,
-                $this->key,
-                $this->it
-            );
+            $this->children = $selector($this->current, $this->key, $this->it);
         }
     }
 }

@@ -16,11 +16,13 @@ class DelegateEqualityComparer implements EqualityComparerInterface
 
     public function equals($v0, $v1)
     {
-        return call_user_func($this->equalsFn, $v0, $v1);
+        $equalsFn = $this->equalsFn;
+        return $equalsFn($v0, $v1);
     }
 
     public function hash($v)
     {
-        return call_user_func($this->hashFn, $v);
+        $hashFn = $this->hashFn;
+        return $hashFn($v);
     }
 }

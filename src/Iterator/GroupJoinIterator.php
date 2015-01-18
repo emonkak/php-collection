@@ -120,14 +120,10 @@ class GroupJoinIterator implements \Iterator
     private function fetch()
     {
         if ($this->outer->valid()) {
+            $outerKeySelector = $this->outerKeySelector;
             $outerValue = $this->outer->current();
             $outerKey = $this->outer->key();
-            $joinKey = call_user_func(
-                $this->outerKeySelector,
-                $outerValue,
-                $outerKey,
-                $this->outer
-            );
+            $joinKey = $outerKeySelector($outerValue, $outerKey, $this->outer);
 
             if (isset($this->lookupTable[$joinKey])) {
                 $inners = $this->lookupTable[$joinKey];
@@ -135,24 +131,17 @@ class GroupJoinIterator implements \Iterator
                 $inners = [];
             }
 
-            $this->resultValue = call_user_func(
-                $this->resultValueSelector,
-                $outerValue,
-                $inners
-            );
+            $resultValueSelector = $this->resultValueSelector;
+            $this->resultValue = $resultValueSelector($outerValue, $inners);
         }
     }
 
     private function lookup()
     {
         $this->lookupTable = [];
+        $innerKeySelector = $this->innerKeySelector;
         foreach ($this->inner as $innerKey => $innerValue) {
-            $joinKey = call_user_func(
-                $this->innerKeySelector,
-                $innerValue,
-                $innerKey,
-                $this->inner
-            );
+            $joinKey = $innerKeySelector($innerValue, $innerKey, $this->inner);
             $this->lookupTable[$joinKey][] = $innerValue;;
         }
     }

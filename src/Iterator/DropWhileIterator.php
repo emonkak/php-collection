@@ -31,13 +31,9 @@ class DropWhileIterator implements \Iterator
     public function rewind()
     {
         $this->it->rewind();
+        $predicate = $this->predicate;
         while ($this->it->valid()) {
-            $dropped = call_user_func(
-                $this->predicate,
-                $this->it->current(),
-                $this->it->key(),
-                $this->it
-            );
+            $dropped = $predicate($this->it->current(), $this->it->key(), $this->it);
             if ($dropped) {
                 $this->it->next();
             } else {

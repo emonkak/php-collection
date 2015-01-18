@@ -46,14 +46,10 @@ class TakeWhileIterator implements \Iterator
     private function fetch()
     {
         if ($this->it->valid()) {
+            $predicate = $this->predicate;
             $this->current = $this->it->current();
             $this->key = $this->it->key();
-            $this->accepted = call_user_func(
-                $this->predicate,
-                $this->current,
-                $this->key,
-                $this
-            );
+            $this->accepted = $predicate($this->current, $this->key, $this);
         } else {
             $this->accepted = false;
         }

@@ -372,13 +372,14 @@ class ParallelIterator implements \Iterator, \Countable
      */
     private function loop($socket)
     {
+        $job = $this->job;
         while (true) {
             try {
-                $result = $this->read($socket);  // is blocking
+                $input = $this->read($socket);  // is blocking
             } catch (\RuntimeException $e) {
                 break;
             }
-            $this->write($socket, call_user_func($this->job, $result));
+            $this->write($socket, $job($input));
         }
     }
 }

@@ -27,7 +27,8 @@ class IterateIterator implements \Iterator
 
     public function next()
     {
-        $this->acc = call_user_func($this->f, $this->acc);
+        $f = $this->f;
+        $this->acc = $f($this->acc);
         $this->index++;
     }
 
