@@ -451,4 +451,12 @@ class GeneratorProvider implements CollectionProviderInterface
             }
         });
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function lazy(callable $factory)
+    {
+        return Iterators::createLazy($factory);
+    }
 }

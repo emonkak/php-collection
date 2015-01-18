@@ -860,14 +860,15 @@ trait Enumerable
         return Iterators::isEmpty($xs);
     }
 
-    private function newCollection($source)
+    protected function newCollection($source)
     {
         return new Collection($source, $this->getProvider());
     }
 
-    private function newLazyCollection(callable $factory)
+    protected function newLazyCollection(callable $factory)
     {
-        return new Collection(Iterators::createLazy($factory), $this->getProvider());
+        $provider = $this->getProvider();
+        return new Collection($provider->lazy($factory), $provider);
     }
 
     private function resolveComparer($comparer)

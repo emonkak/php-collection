@@ -287,4 +287,12 @@ class IteratorProvider implements CollectionProviderInterface
     {
         return new IterateIterator($initial, $f);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function lazy(callable $factory)
+    {
+        return Iterators::createLazy($factory);
+    }
 }

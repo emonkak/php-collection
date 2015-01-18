@@ -374,4 +374,12 @@ class ArrayProvider implements CollectionProviderInterface
     {
         throw new \OverflowException("Can't handle infinite stream.");
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function lazy(callable $factory)
+    {
+        return $factory();
+    }
 }

@@ -178,4 +178,10 @@ interface CollectionProviderInterface
      * @return array|\Iterator
      */
     public function iterate($initial, callable $f);
+
+    /**
+     * @param callable $factory
+     * @return array|\Iterator
+     */
+    public function lazy(callable $factory);
 }
