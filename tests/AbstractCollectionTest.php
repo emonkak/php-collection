@@ -1094,6 +1094,10 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $result = $factory($list)->flatten(true)->toList();
         $shouldBe = [1, 2, 3, [[[4]]]];
         $this->assertSame($shouldBe, $result, 'can shallowly flatten nested arrays');
+
+        $result = $factory($list)->flatten()->reverse()->toList();
+        $shouldBe = [4, 3, 2, 1];
+        $this->assertSame($shouldBe, $result, 'can flatten nested arrays');
     }
 
     /**

@@ -460,7 +460,7 @@ trait Enumerable
     {
         return $this->newLazyCollection(function() {
             $xs = $this->getSource();
-            $array = Iterators::toArray($xs);
+            $array = Iterators::toList($xs);
             shuffle($array);
             return $array;
         });
@@ -470,7 +470,7 @@ trait Enumerable
     {
         $xs = $this->getSource();
         if ($n === null) {
-            $array = Iterators::toArray($xs);
+            $array = Iterators::toList($xs);
             if (empty($array)) {
                 return null;
             }
@@ -646,7 +646,7 @@ trait Enumerable
     {
         return $this->newLazyCollection(function() {
             $xs = $this->getSource();
-            return array_reverse(Iterators::toArray($xs));
+            return array_reverse(Iterators::toList($xs));
         });
     }
 
@@ -654,7 +654,7 @@ trait Enumerable
     {
         $comparer = $this->resolveComparer($comparer);
         return $this->newLazyCollection(function() use ($comparer) {
-            $xs = Iterators::toArray($this->getSource());
+            $xs = Iterators::toList($this->getSource());
             usort($xs, $comparer);
             return $xs;
         });
@@ -693,7 +693,7 @@ trait Enumerable
 
     public function indexOf($value, $isSorted = 0)
     {
-        $xs = Iterators::toArray($this->getSource());
+        $xs = Iterators::toList($this->getSource());
 
         if ($isSorted === true) {
             $i = $this->newCollection($xs)->sortedIndex($value);
@@ -713,7 +713,7 @@ trait Enumerable
 
     public function lastIndexOf($x, $fromIndex = null)
     {
-        $xs = Iterators::toArray($this->getSource());
+        $xs = Iterators::toList($this->getSource());
         $l = count($xs);
         $i = $fromIndex !== null ? min($l, $fromIndex) : $l;
 
@@ -728,7 +728,7 @@ trait Enumerable
 
     public function sortedIndex($value, $selector = null)
     {
-        $xs = Iterators::toArray($this->getSource());
+        $xs = Iterators::toList($this->getSource());
         $selector = $this->resolveSelector($selector);
         $value = $selector($value, null, []);
 
