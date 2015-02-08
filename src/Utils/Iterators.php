@@ -41,7 +41,7 @@ class Iterators
         if (is_array($src)) {
             return $src;
         }
-        while ($src instanceof \IteratorAggregate) {
+        if ($src instanceof \IteratorAggregate) {
             $src = $src->getIterator();
         }
         if ($src instanceof \ArrayIterator) {
@@ -76,7 +76,7 @@ class Iterators
         if (is_array($src)) {
             return array_values($src);
         }
-        while ($src instanceof \IteratorAggregate) {
+        if ($src instanceof \IteratorAggregate) {
             $src = $src->getIterator();
         }
         if ($src instanceof \ArrayIterator) {
@@ -111,7 +111,7 @@ class Iterators
         if (is_array($src)) {
             return count($src);
         }
-        while ($src instanceof \IteratorAggregate) {
+        if ($src instanceof \IteratorAggregate) {
             $src = $src->getIterator();
         }
         if ($src instanceof \Countable) {
@@ -134,7 +134,7 @@ class Iterators
         if (is_array($src)) {
             return empty($src);
         }
-        while ($src instanceof \IteratorAggregate) {
+        if ($src instanceof \IteratorAggregate) {
             $src = $src->getIterator();
         }
         if ($src instanceof \Countable) {
