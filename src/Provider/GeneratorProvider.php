@@ -111,7 +111,7 @@ class GeneratorProvider implements CollectionProviderInterface
                         yield $resultValueSelector($outerValue, $innerValue);
                     }
                 } else {
-                    yield $resultValueSelector($outerValue, null);
+                    yield $outerValue;
                 }
             }
         });

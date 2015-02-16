@@ -286,9 +286,9 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $result = $factory($talents)
             ->join(
                 $users,
-                function($talent) { return $talent['id']; },
-                function($user) { return $user['talent_id']; },
-                function($talent, $user) {
+                function(array $talent) { return $talent['id']; },
+                function(array $user) { return $user['talent_id']; },
+                function(array $talent, array $user) {
                     $talent['user'] = $user;
                     return $talent;
                 }
@@ -320,16 +320,16 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ['id' => 1, 'name' => 'Sumire Uesaka', 'user' => $users[0]],
             ['id' => 2, 'name' => 'Mikako Komatsu', 'user' => $users[1]],
             ['id' => 2, 'name' => 'Mikako Komatsu', 'user' => $users[2]],
-            ['id' => 3, 'name' => 'Rumi Okubo', 'user' => null],
+            ['id' => 3, 'name' => 'Rumi Okubo'],
             ['id' => 4, 'name' => 'Natsumi Takamori', 'user' => $users[3]],
             ['id' => 5, 'name' => 'Shiori Mikami', 'user' => $users[4]],
         ];
         $result = $factory($talents)
             ->outerJoin(
                 $users,
-                function($talent) { return $talent['id']; },
-                function($user) { return $user['talent_id']; },
-                function($talent, $user) {
+                function(array $talent) { return $talent['id']; },
+                function(array $user) { return $user['talent_id']; },
+                function(array $talent, array $user) {
                     $talent['user'] = $user;
                     return $talent;
                 }
@@ -388,9 +388,9 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $result = $factory($users)
             ->groupJoin(
                 $tweets,
-                function($user) { return $user['id']; },
-                function($user) { return $user['user_id']; },
-                function($user, $tweets) {
+                function(array $user) { return $user['id']; },
+                function(array $user) { return $user['user_id']; },
+                function(array $user, array $tweets) {
                     $user['tweets'] = $tweets;
                     return $user;
                 }

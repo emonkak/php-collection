@@ -100,7 +100,7 @@ class ArrayProvider implements CollectionProviderInterface
                     $results[] = $resultValueSelector($outerValue, $innerValue);
                 }
             } else {
-                $results[] = $resultValueSelector($outerValue, null);
+                $results[] = $outerValue;
             }
         }
 
