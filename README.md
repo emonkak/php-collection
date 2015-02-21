@@ -1,7 +1,7 @@
 # Emonkak/Collection
 
-[![Build Status](https://travis-ci.org/emonkak/php-collection.png)](https://travis-ci.org/emonkak/php-collection)
-[![Coverage Status](https://coveralls.io/repos/emonkak/php-collection/badge.png)](https://coveralls.io/r/emonkak/php-collection)
+[![Build Status](https://travis-ci.org/emonkak/php-collection.svg)](https://travis-ci.org/emonkak/php-collection)
+[![Coverage Status](https://coveralls.io/repos/emonkak/php-collection/badge.svg)](https://coveralls.io/r/emonkak/php-collection)
 
 A collection library as a container for aggregation of objects.
 
