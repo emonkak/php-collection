@@ -162,7 +162,7 @@ class OuterJoinIterator implements \Iterator
                 $this->resultValue = $resultValueSelector($this->outerValue, reset($this->inners));
             } else {
                 $this->inners = [];
-                $this->resultValue = $this->outerValue;
+                $this->resultValue = $resultValueSelector($this->outerValue, null);
             }
         }
     }
