@@ -364,7 +364,7 @@ class ArrayProvider implements CollectionProviderInterface
      */
     public function renum($xs)
     {
-        return array_values(Iterators::toArray($xs));
+        return Iterators::toList($xs);
     }
 
     /**
