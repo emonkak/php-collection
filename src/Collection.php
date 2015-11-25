@@ -28,6 +28,19 @@ class Collection implements \IteratorAggregate
         return new Collection($source, self::$defaultProvider);
     }
 
+    public static function combine($sources)
+    {
+        if (!Iterators::isTraversable($sources)) {
+            $type = gettype($sources);
+            throw new \InvalidArgumentException("'$type' can not be traversable.");
+        }
+
+        return new Collection(
+            self::$defaultProvider->concat($sources),
+            self::$defaultProvider
+        );
+    }
+
     public static function range($start, $stop = null, $step = 1)
     {
         if ($stop === null) {

@@ -33,6 +33,33 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         Collection::from(0);
     }
 
+    /**
+     * @dataProvider provideCombine
+     */
+    public function testCombine($sources, $expected)
+    {
+        $collection = Collection::combine($sources);
+
+        $this->assertSame($expected, $collection->toList());
+        $this->assertSame(Collection::getDefaultProvider(), $collection->getProvider());
+    }
+
+    public function provideCombine()
+    {
+        return [
+            [[], []],
+            [[new \ArrayIterator([1, 2]), [3, 4, 5]], [1, 2, 3, 4, 5]]
+        ];
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testCombineThrowsInvalidArgumentException()
+    {
+        Collection::combine(1);
+    }
+
     public function tearDown()
     {
         Collection::setDefaultProvider($this->defaultProvider);
