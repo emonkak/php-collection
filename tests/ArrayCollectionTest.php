@@ -10,7 +10,7 @@ class ArrayCollectionTest extends AbstractCollectionTest
     /**
      * @expectedException \OverflowException
      */
-    public function testRepeatOfInfiniteStream()
+    public function testRepeatThrowsOverflowException()
     {
         Collection::repeat('foo');
     }
@@ -18,7 +18,7 @@ class ArrayCollectionTest extends AbstractCollectionTest
     /**
      * @expectedException \OverflowException
      */
-    public function testIterate()
+    public function testIterateThrowsOverflowException()
     {
         Collection::iterate(2, function($x) { return $x * $x; });
     }
@@ -27,7 +27,7 @@ class ArrayCollectionTest extends AbstractCollectionTest
      * @dataProvider provideCollectionFactory
      * @expectedException \OverflowException
      */
-    public function testCycleOfInfiniteStream($factory)
+    public function testCycleThrowsOverflowException($factory)
     {
         $factory([1, 2])->cycle();
     }

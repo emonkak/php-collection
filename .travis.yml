@@ -12,7 +12,7 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
-  - composer install
+  - composer install --prefer-source
 
 script:
   - mkdir -p build/logs
@@ -20,3 +20,5 @@ script:
 
 after_script:
   - php vendor/bin/coveralls
+
+sudo: false

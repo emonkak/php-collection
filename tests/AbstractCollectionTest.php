@@ -28,9 +28,36 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testFromNotTraverableSource()
+    public function testFromThrowsInvalidArgumentException()
     {
         Collection::from(0);
+    }
+
+    /**
+     * @dataProvider provideCombine
+     */
+    public function testCombine($sources, $expected)
+    {
+        $collection = Collection::combine($sources);
+
+        $this->assertSame($expected, $collection->toList());
+        $this->assertSame(Collection::getDefaultProvider(), $collection->getProvider());
+    }
+
+    public function provideCombine()
+    {
+        return [
+            [[], []],
+            [[new \ArrayIterator([1, 2]), [3, 4, 5]], [1, 2, 3, 4, 5]]
+        ];
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testCombineThrowsInvalidArgumentException()
+    {
+        Collection::combine(1);
     }
 
     public function tearDown()
@@ -164,7 +191,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideCollectionFactory
      * @expectedException \InvalidArgumentException
      */
-    public function testParMapWhenWorkersAreZeroThrowException($factory)
+    public function testParMapThrowsInvalidArgumentException($factory)
     {
         $factory([])->parMap(function($x) { }, 0);
     }
