@@ -28,7 +28,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testFromNotTraverableSource()
+    public function testFromThrowsInvalidArgumentException()
     {
         Collection::from(0);
     }
@@ -164,7 +164,7 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideCollectionFactory
      * @expectedException \InvalidArgumentException
      */
-    public function testParMapWhenWorkersAreZeroThrowException($factory)
+    public function testParMapThrowsInvalidArgumentException($factory)
     {
         $factory([])->parMap(function($x) { }, 0);
     }

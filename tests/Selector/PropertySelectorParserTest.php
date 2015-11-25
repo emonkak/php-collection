@@ -46,7 +46,7 @@ class PropertySelectorParserTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideParseInvalidExpr
      * @expectedException \InvalidArgumentException
      */
-    public function testParseInvalidExpr($expr)
+    public function testParseThrowsInvalidArgumentException($expr)
     {
         PropertySelectorParser::parse($expr);
     }
