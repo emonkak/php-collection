@@ -16,6 +16,11 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         Collection::setDefaultProvider($this->getCollectionProvider());
     }
 
+    public function tearDown()
+    {
+        Collection::setDefaultProvider($this->defaultProvider);
+    }
+
     public function testFrom()
     {
         $it = new \EmptyIterator();
@@ -58,11 +63,6 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     public function testCombineThrowsInvalidArgumentException()
     {
         Collection::combine(1);
-    }
-
-    public function tearDown()
-    {
-        Collection::setDefaultProvider($this->defaultProvider);
     }
 
     public function testRange()
@@ -108,6 +108,16 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 
         $result = Collection::repeat('foo', 0)->toList();
         $this->assertEmpty($result);
+    }
+
+    /**
+     * @dataProvider provideCollectionFactory
+     */
+    public function testGetIterator($factory)
+    {
+        $xs = $factory([1, 2, 3])->map(function($x) { return $x * 2; })->getIterator();
+        $this->assertSame([2, 4, 6], iterator_to_array($xs));
+        $this->assertSame([2, 4, 6], iterator_to_array($xs));
     }
 
     /**
