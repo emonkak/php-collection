@@ -1,4 +1,4 @@
-# Emonkak/Collection
+# Emonkak\Collection
 
 [![Build Status](https://travis-ci.org/emonkak/php-collection.svg)](https://travis-ci.org/emonkak/php-collection)
 [![Coverage Status](https://coveralls.io/repos/emonkak/php-collection/badge.svg)](https://coveralls.io/r/emonkak/php-collection)
