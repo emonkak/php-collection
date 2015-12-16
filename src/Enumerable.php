@@ -590,9 +590,9 @@ trait Enumerable
         return $this->difference(func_get_args());
     }
 
-    public function union()
+    public function unionWith()
     {
-        return call_user_func_array([$this, 'concat'], func_get_args())->uniq();
+        return call_user_func_array([$this, 'concatWith'], func_get_args())->uniq();
     }
 
     public function intersection()
@@ -624,7 +624,7 @@ trait Enumerable
         return $this->newCollection($this->getProvider()->uniq($xs, $selector));
     }
 
-    public function zip()
+    public function zipWith()
     {
         $xss = array_merge([$this->getSource()], func_get_args());
         return $this->newCollection($this->getProvider()->zip($xss));
@@ -660,7 +660,7 @@ trait Enumerable
         });
     }
 
-    public function concat()
+    public function concatWith()
     {
         $xss = array_merge([$this->getSource()], func_get_args());
         return $this->newCollection($this->getProvider()->concat($xss));
