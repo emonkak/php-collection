@@ -35,8 +35,8 @@ class MethodChainEvent extends AthleticEvent
         $result = $xs
             ->filter(function($x) { return $x % 2 === 0; })
             ->map(function($x) { return $x * 2; })
-            ->concat($this->data)
-            ->zip(Collection::range(0, INF))
+            ->concatWith($this->data)
+            ->zipWith(Collection::range(0, INF))
             ->take(100);
         foreach ($result as $x);
     }

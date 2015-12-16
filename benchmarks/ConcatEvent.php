@@ -23,6 +23,6 @@ class ReduceEvent extends AthleticEvent
 
     protected function execute($xs)
     {
-        foreach ($xs->concat($this->data) as $x);
+        foreach ($xs->concatWith($this->data) as $x);
     }
 }

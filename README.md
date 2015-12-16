@@ -28,3 +28,7 @@ Collection::iterate(0, function($n) { return $n + 1; })
 //    6
 //    8
 ```
+
+## Documentation
+
+Please see [Wiki](https://github.com/emonkak/php-collection/wiki). (but wiki pages are Japanese only)

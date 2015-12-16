@@ -5,6 +5,7 @@ namespace Emonkak\Collection;
 use Emonkak\Collection\Provider\CollectionProviderInterface;
 use Emonkak\Collection\Provider\GeneratorProvider;
 use Emonkak\Collection\Provider\IteratorProvider;
+use Emonkak\Collection\Selector\ValueSelector;
 use Emonkak\Collection\Utils\Iterators;
 
 class Collection implements \IteratorAggregate
@@ -28,7 +29,7 @@ class Collection implements \IteratorAggregate
         return new Collection($source, self::$defaultProvider);
     }
 
-    public static function combine($sources)
+    public static function concat($sources)
     {
         if (!Iterators::isTraversable($sources)) {
             $type = gettype($sources);
@@ -37,6 +38,14 @@ class Collection implements \IteratorAggregate
 
         return new Collection(
             self::$defaultProvider->concat($sources),
+            self::$defaultProvider
+        );
+    }
+
+    public static function iterate($initial, $f)
+    {
+        return new Collection(
+            self::$defaultProvider->iterate($initial, $f),
             self::$defaultProvider
         );
     }
@@ -53,18 +62,26 @@ class Collection implements \IteratorAggregate
         );
     }
 
-    public static function iterate($initial, $f)
-    {
-        return new Collection(
-            self::$defaultProvider->iterate($initial, $f),
-            self::$defaultProvider
-        );
-    }
-
     public static function repeat($value, $n = null)
     {
         return new Collection(
             self::$defaultProvider->repeat($value, $n),
+            self::$defaultProvider
+        );
+    }
+
+    public static function union($sources)
+    {
+        return new Collection(
+            self::$defaultProvider->uniq(self::$defaultProvider->concat($sources), ValueSelector::getInstance()),
+            self::$defaultProvider
+        );
+    }
+
+    public static function zip($sources)
+    {
+        return new Collection(
+            self::$defaultProvider->zip($sources),
             self::$defaultProvider
         );
     }

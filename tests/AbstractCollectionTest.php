@@ -39,17 +39,17 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideCombine
+     * @dataProvider provideConcat
      */
-    public function testCombine($sources, $expected)
+    public function testConcat($sources, $expected)
     {
-        $collection = Collection::combine($sources);
+        $collection = Collection::concat($sources);
 
         $this->assertSame($expected, $collection->toList());
         $this->assertSame(Collection::getDefaultProvider(), $collection->getProvider());
     }
 
-    public function provideCombine()
+    public function provideConcat()
     {
         return [
             [[], []],
@@ -60,9 +60,9 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testCombineThrowsInvalidArgumentException()
+    public function testConcatThrowsInvalidArgumentException()
     {
-        Collection::combine(1);
+        Collection::concat(1);
     }
 
     public function testRange()
@@ -108,6 +108,31 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 
         $result = Collection::repeat('foo', 0)->toList();
         $this->assertEmpty($result);
+    }
+
+    public function testUnion()
+    {
+        $result = Collection::union([[1, 2, 3], [2, 30, 1], [1, 40]])->toList();
+        $shouldBe = [1, 2, 3, 30, 40];
+        $this->assertSame($shouldBe, $result, 'takes the union of a list of arrays');
+
+        $result = Collection::union([[1, 2, 3], [2, 30, 1], [1, 40, [1]]])->toList();
+        $shouldBe = [1, 2, 3, 30, 40, [1]];
+        $this->assertSame($shouldBe, $result, 'takes the union of a list of nested arrays');
+    }
+
+    public function testZip()
+    {
+        $names = ['moe', 'larry', 'curly'];
+        $ages = [30, 40, 50];
+        $leaders = [true, false];
+
+        $result = Collection::zip([$names, $ages, $leaders])->toList();
+        $expected = [
+            ['moe', 30, true],
+            ['larry', 40, false]
+        ];
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -1203,13 +1228,13 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideCollectionFactory
      */
-    public function testUnion($factory)
+    public function testUnionWith($factory)
     {
-        $result = $factory([1, 2, 3])->union([2, 30, 1], [1, 40])->toList();
+        $result = $factory([1, 2, 3])->unionWith([2, 30, 1], [1, 40])->toList();
         $shouldBe = [1, 2, 3, 30, 40];
         $this->assertSame($shouldBe, $result, 'takes the union of a list of arrays');
 
-        $result = $factory([1, 2, 3])->union([2, 30, 1], [1, 40, [1]])->toList();
+        $result = $factory([1, 2, 3])->unionWith([2, 30, 1], [1, 40, [1]])->toList();
         $shouldBe = [1, 2, 3, 30, 40, [1]];
         $this->assertSame($shouldBe, $result, 'takes the union of a list of nested arrays');
     }
@@ -1231,13 +1256,13 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideCollectionFactory
      */
-    public function testZip($factory)
+    public function testZipWith($factory)
     {
         $names = ['moe', 'larry', 'curly'];
         $ages = [30, 40, 50];
         $leaders = [true, false];
 
-        $stooges = $factory($names)->zip($ages, $leaders)->toList();
+        $stooges = $factory($names)->zipWith($ages, $leaders)->toList();
         $shouldBe = [
             ['moe', 30, true],
             ['larry', 40, false]
@@ -1417,6 +1442,20 @@ abstract class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 
         $result = $factory([])->sort()->toList();
         $this->assertEmpty($result);
+    }
+
+    /**
+     * @dataProvider provideConcat
+     */
+    public function testConcatWith($sources, $expected)
+    {
+        $result = Collection::from([1, 2])->concatWith([3, 4, 5])->toList();
+        $expected = [1, 2, 3, 4, 5];
+        $this->assertSame($expected, $result);
+
+        $result = Collection::from([])->concatWith([])->toList();
+        $expected = [];
+        $this->assertSame($expected, $result);
     }
 
     /**
