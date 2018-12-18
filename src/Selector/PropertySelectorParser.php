@@ -23,7 +23,7 @@ class PropertySelectorParser
 
         $accessor .= 'return $v;';
 
-        return create_function('$v', $accessor);
+        return eval('return function($v){' . $accessor . '};');
     }
 
     private static function createArrayAccessor($prop)
