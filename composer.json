@@ -17,7 +17,7 @@
     "require-dev": {
       "athletic/athletic": "~0.1.8",
       "phpunit/phpunit": "~4.4.0",
-      "satooshi/php-coveralls": "dev-master"
+      "php-coveralls/php-coveralls": "~1.1"
     },
     "autoload": {
         "psr-4": {
